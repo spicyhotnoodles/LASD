@@ -227,6 +227,7 @@ template <typename Data>
 class FoldableContainer: virtual public TestableContainer<Data> { // Must extend TestableContainer
 
 // A foldable container is a container whom datas can be read (and folded into an accumulator)
+
 private:
 
 protected:
