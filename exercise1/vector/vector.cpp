@@ -23,18 +23,17 @@ namespace lasd {
     template<typename Data>
     Vector<Data>::Vector(const Vector<Data>& vec) {
         Elements = new Data[vec.size];
-        size = vec.size;
         std::copy(vec.Elements, vec.Elements + vec.size, Elements); // copy(first, last, destination)
+        size = vec.size;
         // vec.Elements + vec.size = first element out of range of the array. Elements is a pointer! 
     }
 
     // Move constructor 
     template<typename Data>
-    Vector<Data>::Vector(const Vector<Data>&& vec) noexcept {
+    Vector<Data>::Vector(Vector<Data>&& vec) noexcept {
         Elements = new Data[vec.size];
-        size = vec.size;
         std::swap(Elements, vec.Elements);
-        std:swap(size, vec.size);
+        std::swap(size, vec.size);
     }
 
     // Destructor
@@ -45,7 +44,7 @@ namespace lasd {
 
     // Copy assignment
     template<typename Data>
-    Vector<Data>& Vector<Data>::operator=(const Vector& vec) {
+    Vector<Data>& Vector<Data>::operator=(const Vector<Data>& vec) {
         Vector<Data>* tmpvec = new Vector<Data>(vec); // copy constructor
         std::swap(*tmpvec, *this);
         delete tmpvec;
@@ -54,15 +53,15 @@ namespace lasd {
 
     // Move assignment
     template<typename Data>
-    Vector<Data>& Vector<Data>::operator=(Vector && vec) noexcept {
+    Vector<Data>& Vector<Data>::operator=(Vector<Data> && vec) noexcept {
         std::swap(Elements, vec.Elements);
         std::swap(size, vec.size);
         return *this;
-    } 
+    }
 
     // Comparison operators
     template<typename Data>
-    inline bool Vector<Data>::operator==(const Vector& vec) noexcept {
+    bool Vector<Data>::operator==(const Vector<Data>& vec) const noexcept {
         if (size != vec.size)
             return false;
         else {
@@ -75,7 +74,7 @@ namespace lasd {
     }
 
     template<typename Data>
-    inline bool Vector<Data>::operator!=(const Vector& vec) noexcept {
+    bool Vector<Data>::operator!=(const Vector& vec) const noexcept {
         return !(*this == vec);
     }
 
@@ -88,7 +87,6 @@ namespace lasd {
         else
             throw std::out_of_range("Index out of range!");
     }
-
 
     //Resize function
     template<typename Data>
@@ -142,8 +140,10 @@ namespace lasd {
 
     template<typename Data>
     void Vector<Data>::MapPostOrder(MapFunctor fun, void* par) {
-        for(ulong index = (size - 1); index >= 0; index--)
-            fun(Elements[index], par);
+        ulong index = size;
+        while (index > 0) {
+            fun(Elements[--index], par);
+        }
     }
 
     template<typename Data>
@@ -159,7 +159,9 @@ namespace lasd {
 
     template<typename Data>
     void Vector<Data>::FoldPostOrder(FoldFunctor fun, const void* par, void* acc) const {
-        for(ulong index = (size - 1); index >= 0; index--)
-            fun(Elements[index], par, acc);
+        ulong index = size;
+        while (index > 0) {
+            fun(Elements[--index], par, acc);
+        }
     }
 }

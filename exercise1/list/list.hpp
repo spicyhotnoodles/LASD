@@ -2,33 +2,43 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
+/* ************************************************************************** */
+
 #include "../container/container.hpp"
+
+/* ************************************************************************** */
 
 namespace lasd {
 
+/* ************************************************************************** */
+
 template <typename Data>
-class List: public LinearContainer<Data>, public MappableContainer<Data>, public FoldableContainer<Data> { // Must extend LinearContainer<Data>, MappableContainer<Data>, and FoldableContainer<Data>
+class List {
+              // Must extend LinearContainer<Data>,
+              //             PreOrderMappableContainer<Data>,
+              //             PostOrderMappableContainer<Data>,
+              //             PreOrderFoldableContainer<Data>,
+              //             PostOrderFoldableContainer<Data>
 
 private:
 
+  // ...
+
 protected:
 
-  using LinearContainer<Data>::size;
+  // using LinearContainer<Data>::???;
 
-  struct Node
-  {
+  struct Node {
 
     // Data
-    Data value;
-    Node* next;
+    // ...
 
-    Node() = default;
+    /* ********************************************************************** */
 
     // Specific constructors
-    Node(const Data& newValue) {
-      value = newValue;
-      next = nullptr;
-    }
+    // ...
+
+    /* ********************************************************************** */
 
     // Copy constructor
     // ...
@@ -39,7 +49,7 @@ protected:
     /* ********************************************************************** */
 
     // Destructor
-    ~Node() = default;
+    // ...
 
     /* ********************************************************************** */
 
@@ -59,20 +69,27 @@ protected:
 public:
 
   // Default constructor
-  List() = default;
+  // List() specifiers;
+
+  /* ************************************************************************ */
 
   // Specific constructor
   // List(argument) specifiers; // A list obtained from a LinearContainer
-  List(const LinearContainer<Data>& lc);
+
+  /* ************************************************************************ */
 
   // Copy constructor
-  List(const List<Data>&);
+  // List(argument) specifiers;
 
   // Move constructor
-  List(const List<Data>&&) noexcept;
+  // List(argument) specifiers;
+
+  /* ************************************************************************ */
 
   // Destructor
-  ~List() = default;
+  // ~List() specifiers;
+
+  /* ************************************************************************ */
 
   // Copy assignment
   // type operator=(argument) specifiers;
@@ -119,8 +136,19 @@ public:
 
   // using typename MappableContainer<Data>::MapFunctor;
 
-  // type MapPreOrder(arguments) specifiers; // Override MappableContainer member
-  // type MapPostOrder(arguments) specifiers; // Override MappableContainer member
+  // type Map(arguments) specifiers; // Override MappableContainer member
+
+  /* ************************************************************************ */
+
+  // Specific member functions (inherited from PreOrderMappableContainer)
+
+  // type MapPreOrder(arguments) specifiers; // Override PreOrderMappableContainer member
+
+  /* ************************************************************************ */
+
+  // Specific member functions (inherited from PostOrderMappableContainer)
+
+  // type MapPostOrder(arguments) specifiers; // Override PostOrderMappableContainer member
 
   /* ************************************************************************ */
 
@@ -128,19 +156,30 @@ public:
 
   // using typename FoldableContainer<Data>::FoldFunctor;
 
+  // type Fold(arguments) specifiers; // Override FoldableContainer member
+
+  /* ************************************************************************ */
+
+  // Specific member functions (inherited from PreOrderFoldableContainer)
+
   // type FoldPreOrder(arguments) specifiers; // Override FoldableContainer member
+
+  /* ************************************************************************ */
+
+  // Specific member functions (inherited from PostOrderFoldableContainer)
+
   // type FoldPostOrder(arguments) specifiers; // Override FoldableContainer member
 
 protected:
 
-  // Auxiliary member functions (for MappableContainer)
+  // Auxiliary member functions (for PreOrderMappableContainer & PostOrderMappableContainer)
 
   // type MapPreOrder(arguments) specifiers; // Accessory function executing from one point of the list onwards
   // type MapPostOrder(arguments) specifiers; // Accessory function executing from one point of the list onwards
 
   /* ************************************************************************ */
 
-  // Auxiliary member functions (for FoldableContainer)
+  // Auxiliary member functions (for PreOrderFoldableContainer & PostOrderFoldableContainer)
 
   // type FoldPreOrder(arguments) specifiers; // Accessory function executing from one point of the list onwards
   // type FoldPostOrder(arguments) specifiers; // Accessory function executing from one point of the list onwards

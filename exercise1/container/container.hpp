@@ -343,6 +343,91 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
+class InOrderMappableContainer : virtual public MappableContainer<Data> {
+
+private:
+
+protected:
+
+public:
+
+ //  // Destructor
+ //  virtual ~InOrderMappableContainer() = delete;
+ //
+ //  /* ************************************************************************ */
+ //
+ //  // Copy assignment
+ // InOrderMappableContainer& operator=(const InOrderMappableContainer&) = delete;
+ //  // Move assignment
+ // InOrderMappableContainer& operator=(InOrderMappableContainer&&) noexcept = delete;
+ //
+ //  /* ************************************************************************ */
+ //
+ //  // Comparison operators
+ // bool operator==(const InOrderMappableContainer&) const noexcept = delete;
+ // bool operator!=(const InOrderMappableContainer&) const noexcept = delete;
+ //  /* ************************************************************************ */
+ //
+ //  // Specific member functions
+ //
+ // using typename MappableContainer<Data>::MapFunctor;
+ //
+ //  virtual void MapInOrder(MapFunctor, void*) = 0;
+ //
+ //  /* ************************************************************************ */
+ //
+ //  // Specific member functions (inherited from MappableContainer)
+ //
+ //  inline virtual void Map(MapFunctor, void*) override;
+
+};
+
+/* ************************************************************************** */
+
+template <typename Data>
+class InOrderFoldableContainer : virtual public FoldableContainer<Data>{
+
+private:
+
+protected:
+
+public:
+
+  // // Destructor
+  // virtual ~InOrderFoldableContainer() = delete;
+  //
+  // /* ************************************************************************ */
+  //
+  // // Copy assignment
+  // InOrderFoldableContainer& operator=(const InOrderFoldableContainer&) = delete;
+  // // Move assignment
+  // InOrderFoldableContainer& operator=(InOrderFoldableContainer&) noexcept = delete;
+  //
+  // /* ************************************************************************ */
+  //
+  // // Comparison operators
+  // bool operator==(const InOrderFoldableContainer&) const noexcept = delete;
+  // bool operator!=(const InOrderFoldableContainer&) const noexcept = delete;
+  //
+  // /* ************************************************************************ */
+  //
+  // // Specific member functions
+  //
+  // using typename MappableContainer<Data>::MapFunctor;
+  //
+  // virtual void FoldInOrder(MapFunctor, const void*, void*) = 0;
+  //
+  // /* ************************************************************************ */
+  //
+  // // Specific member functions (inherited from FoldableContainer)
+  //
+  // inline virtual void Fold(MapFunctor, const void*, void*) override;
+
+};
+
+/* ************************************************************************** */
+
+template <typename Data>
 class BreadthMappableContainer { // Must extend MappableContainer
 
 private:

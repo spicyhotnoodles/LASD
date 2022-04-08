@@ -126,10 +126,10 @@ void stestVectorString(uint& testnum, uint& testerr) {
     MapPreOrder(loctestnum, loctesterr, vec, true, &MapStringAppend, string("!"));
     NonEqualVector(loctestnum, loctesterr, vec, copvec, true);
 
-    copvec = std::move(vec);
+    copvec = move(vec);
     FoldPreOrder(loctestnum, loctesterr, copvec, true, &FoldStringConcatenate, string(""), string("?"), string("?A !B !"));
 
-    lasd::Vector<string> movvec(std::move(vec));
+    lasd::Vector<string> movvec(move(vec));
     FoldPreOrder(loctestnum, loctesterr, movvec, true, &FoldStringConcatenate, string(""), string("?"), string("?A B "));
     SetAt(loctestnum, loctesterr, vec, false, 1, string(""));
     vec.Resize(1);
@@ -158,7 +158,7 @@ void stestVector(uint& testnum, uint& testerr) {
 
 /* ************************************************************************** */
 
-void stestListInt(uint& testnum, uint& testerr) {
+/* void stestListInt(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
   cout << endl << "Begin of List<int> Test:" << endl;
   try {
@@ -217,11 +217,11 @@ void stestListInt(uint& testnum, uint& testerr) {
 
     RemoveFromFront(loctestnum, loctesterr, coplst, true);
     FrontNRemove(loctestnum, loctesterr, coplst, true, 6);
-    coplst = std::move(lst);
+    coplst = move(lst);
     FoldPreOrder(loctestnum, loctesterr, lst, true, &FoldAdd<int>, 0, 0, 11);
     FoldPreOrder(loctestnum, loctesterr, coplst, true, &FoldAdd<int>, 0, 0, 17);
 
-    lasd::List<int> movlst(std::move(lst));
+    lasd::List<int> movlst(move(lst));
     MapPreOrder(loctestnum, loctesterr, movlst, true, &MapIncrement<int>, 0);
     FoldPreOrder(loctestnum, loctesterr, movlst, true, &FoldAdd<int>, 0, 0, 14);
 
@@ -307,7 +307,7 @@ void stestListString(uint& testnum, uint& testerr) {
     InsertAtFront(loctestnum, loctesterr, lst, true, string("C"));
     NonEqualList(loctestnum, loctesterr, lst, coplst, true);
 
-    coplst = std::move(lst);
+    coplst = move(lst);
     FoldPreOrder(loctestnum, loctesterr, coplst, true, &FoldStringConcatenate, string(""), string("?"), string("?CB A"));
   } catch(...) {
     loctestnum++; loctesterr++;
@@ -326,11 +326,11 @@ void stestList(uint& testnum, uint& testerr) {
   testnum += loctestnum;
   testerr += loctesterr;
   cout << endl << "Exercise 1 - List (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
-}
+}*/
 
 /* ************************************************************************** */
 
-void stestVectorListInt(uint& testnum, uint& testerr) {
+/*void stestVectorListInt(uint& testnum, uint& testerr) {
   uint loctestnum = 0, loctesterr = 0;
   cout << endl << "Begin of Vector/List<int> Test:" << endl;
   try {
@@ -434,14 +434,14 @@ void stestVectorList(uint& testnum, uint& testerr) {
   testnum += loctestnum;
   testerr += loctesterr;
   cout << endl << "Exercise 1 - Vector/List (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << endl;
-}
+}*/
 
 /* ************************************************************************** */
 
 void testSimpleExercise1() {
   uint testnum = 0, testerr = 0;
   stestVector(testnum, testerr);
-  stestList(testnum, testerr);
-  stestVectorList(testnum, testerr);
+  //stestList(testnum, testerr);
+  //stestVectorList(testnum, testerr);
   cout << endl << "Exercise 1 (Simple Test) (Errors/Tests: " << testerr << "/" << testnum << ")" << endl;
 }

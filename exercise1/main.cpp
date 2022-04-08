@@ -1,5 +1,5 @@
 
-//#include "zlasdtest/test.hpp"
+#include "zlasdtest/test.hpp"
 #include "zmytest/test.hpp"
 #include "vector/vector.hpp"
 
@@ -21,7 +21,7 @@ int main() {
     switch (input)
     {
     case 1:
-      //lasdtest(); // To call in the menu of your library test!
+      lasdtest(); // To call in the menu of your library test!
       break;   
     case 2:
       mytest();

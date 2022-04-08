@@ -33,7 +33,7 @@ namespace lasd {
     Vector(const Vector<Data>&);
 
     // Move constructor
-    Vector(const Vector<Data>&&) noexcept;
+    Vector(Vector<Data>&&) noexcept;
 
     // Destructor
     virtual ~Vector();
@@ -45,8 +45,8 @@ namespace lasd {
     Vector& operator=(Vector&&) noexcept;
 
     // Comparison operators
-    inline bool operator==(const Vector&) noexcept;
-    inline bool operator!=(const Vector&) noexcept;
+    bool operator==(const Vector&) const noexcept;
+    bool operator!=(const Vector&) const noexcept;
 
     // Specific member functions
 
