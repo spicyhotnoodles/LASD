@@ -53,7 +53,20 @@ void mytest() {
                 }
             }
             else if (selectedStruct == 2) {
-                // Liste, TODO
+                lasd::List<int> list;
+                list.InsertAtFront(5);
+                int value = 10;
+                list.InsertAtFront(value);
+                lasd::List<int> anotherList;
+                anotherList.InsertAtFront(5);
+                if (list.operator!=(anotherList))
+                    std::cout << "Le liste sono diverse" << std::endl;
+                else
+                    std::cout << "Le liste sono uguali" << std::endl;
+                list.InsertAtBack(7);
+                //list.InsertAtFront(8);
+                list.printList();
+                break;
             }
         }
     } while(!exit);

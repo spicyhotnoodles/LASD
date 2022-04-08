@@ -1,4 +1,3 @@
-//#include "vector.hpp"
 #include <stdexcept>
 
 namespace lasd {
