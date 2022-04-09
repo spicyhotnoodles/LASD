@@ -10,31 +10,44 @@ namespace lasd {
         unsigned long index = 0;
         while (index < lc.Size()) {
             InsertAtBack(lc[index]);
+            index++;
         }
     }
 
     // Copy constructor
     template<typename Data>
     List<Data>::List(const List& list) {
-        // Todo
+        Node* tmp = list.head;
+        while (tmp != nullptr) {
+            InsertAtBack(tmp->value);
+            tmp = tmp->next;
+        }
     }
 
     // Move constructor
     template<typename Data>
     List<Data>::List(List&& list) noexcept {
-        // Todo
+        std::swap(head, list.head);
+        std::swap(tail, list.tail);
+        std::swap(size, list.size);        
     }
 
     // Copy assignment
     template<typename Data>
-    List<Data>& List<Data>::operator=(const List&) {
-        // Todo
+    List<Data>& List<Data>::operator=(const List& list) {
+        List<Data>* tempList = new List<Data>(list);
+        std::swap(*tempList, *this);
+        delete tempList;
+        return *this;
     }
 
     // Move assignment
     template<typename Data>
-    List<Data>& List<Data>::operator=(List&&) noexcept {
-        // Todo
+    List<Data>& List<Data>::operator=(List&& list) noexcept {
+        std::swap(head, list.head);
+        std::swap(tail, list.tail);
+        std::swap(size, list.size);
+        return *this;
     }
 
     // Comparison operators
@@ -43,15 +56,16 @@ namespace lasd {
         if (size != list.size)
             return false;
         else {
-            ulong index = size;
+            ulong index = 0;
             while (index < size)
             {
                 if ((*this).operator[](index) != list.operator[](index))
                     return false;
+                index ++;
             }
             return true;
         }
-    }
+    } 
 
     template<typename Data>
     bool List<Data>::operator!=(const List& list) const noexcept {
@@ -63,11 +77,10 @@ namespace lasd {
 
     // Copy of the value
     template<typename Data>
-    void List<Data>::InsertAtFront(Data& dat) {
+    void List<Data>::InsertAtFront(const Data& dat) {
         Node* n = new Node;
         n->value = dat;
         if (head == nullptr) {
-            n->next = tail;
             head = n;
             tail = n;
         }
@@ -84,7 +97,6 @@ namespace lasd {
         Node* n = new Node;
         n->value = std::move(dat);
         if (head == nullptr) { // There are no elements
-            n->next = tail;
             head = n;
             tail = n;
         }
@@ -120,15 +132,15 @@ namespace lasd {
 
     // Copy of the value
     template<typename Data>
-    void List<Data>::InsertAtBack(Data& dat) {
+    void List<Data>::InsertAtBack(const Data& dat) {
         Node* n = new Node;
         n->value = dat;
         if (head == nullptr) {
-            n->next = tail;
             head = n;
             tail = n;
         }
         else {
+            tail->next = n;
             n->next = nullptr;
             tail = n;
         }
@@ -141,24 +153,31 @@ namespace lasd {
         Node* n = new Node;
         n->value = std::move(dat);
         if (head == nullptr) {
-            n->next = tail;
             head = n;
             tail = n;
         }
         else {
-            Node* temp = new Node;
-            temp = head;
-            while (temp->next != nullptr)
-                temp = temp->next;
-            temp->next = n;
+            tail->next = n;
             n->next = nullptr;
             tail = n;
         }
+        size++;
     }
 
     template<typename Data>
     void List<Data>::Clear() {
-        // Todo
+        if (size > 0) {
+            Node* curr = head;
+            Node* tmp = nullptr;
+            while (curr != nullptr) {
+                tmp = curr;
+                curr = curr->next;
+                delete tmp;
+            }
+            size = 0;
+        }
+        head = nullptr;
+        tail = nullptr;
     }
 
     template<typename Data>
@@ -196,43 +215,82 @@ namespace lasd {
 
     template<typename Data>
     void List<Data>::printList() const {
-        Node* curr = head;
-        std::cout << "Head --> ";
-        while(curr != nullptr) {
-            std::cout << curr->value;
-            std::cout << "--> ";
-            curr = curr->next;
+        if (size != 0) {
+            Node* curr = head;
+            std::cout << "Head --> ";
+            while(curr != nullptr) {
+                std::cout << curr->value;
+                std::cout << "--> ";
+                curr = curr->next;
+            }
+            std::cout << "NULL" << std::endl;
         }
-        std::cout << "NULL" << std::endl;
+        else {
+            throw std::length_error("List is empty!");
+        }
     }
 
     template<typename Data>
-    void List<Data>::Map(MapFunctor fun, void* par, Node* curr) {
-        MapPreOrder(fun, par, curr);
+    void List<Data>::Map(MapFunctor fun, void* par) {
+        MapPreOrder(fun, par, head);
     }
+
+    template<typename Data>
+    void List<Data>::MapPreOrder(MapFunctor fun, void* par) {
+        MapPreOrder(fun, par, head);
+    }
+
+    template<typename Data>
+    void List<Data>::MapPostOrder(MapFunctor fun, void* par) {
+        MapPostOrder(fun, par, head);
+    }
+
+    template<typename Data>
+    void List<Data>::Fold(FoldFunctor fun, const void* par, void* acc) const {
+        FoldPreOrder(fun, par, acc);
+    }
+
+    template<typename Data>
+    void List<Data>::FoldPreOrder(FoldFunctor fun, const void* par, void* acc) const {
+        FoldPreOrder(fun, par, acc, head);
+    }
+
+    template<typename Data>
+    void List<Data>::FoldPostOrder(FoldFunctor fun, const void* par, void* acc) const {
+        FoldPostOrder(fun, par, acc, head);
+    }
+
+    // Auxiliary member functions (for PreOrderMappableContainer & PostOrderMappableContainer)
 
     template<typename Data>
     void List<Data>::MapPreOrder(MapFunctor fun, void* par, Node* curr) {
-        for (; curr!= nullptr; curr = curr->next)
+        for (; curr != nullptr; curr = curr->next)
             fun(curr->value, par);
     }
 
     template<typename Data>
     void List<Data>::MapPostOrder(MapFunctor fun, void* par, Node* curr) {
-        if (curr!= nullptr) {
+        if (curr != nullptr) {
             MapPostOrder(fun, par, curr->next);
             fun(curr->value, par);
         }
     }
 
+    // Auxiliary member functions (for PreOrderFoldableContainer & PostOrderFoldableContainer)
+
     template<typename Data>
     void List<Data>::FoldPreOrder(FoldFunctor fun, const void* par, void* acc, Node* curr) const {
-
+        for(; curr != nullptr; curr = curr->next) {
+            fun(curr->value, par, acc);
+        }
     }
 
     template<typename Data>
     void List<Data>::FoldPostOrder(FoldFunctor fun, const void* par, void* acc, Node* curr) const {
-
+        if (curr != nullptr) {
+            FoldPostOrder(fun, par, acc, curr->next);
+            fun(curr->value, par, acc);
+        }
     }
 
 }

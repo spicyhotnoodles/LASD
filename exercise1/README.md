@@ -46,6 +46,7 @@ Non è una classe `template` poiché i metodi da implementare (`size()`, `empty(
 ***
 ## Note a margine:
 Il copy constructor è un metodo che istanzia crea una copia di un oggetto già definito. Analogamente, in C, sarebbe una funzione che, ad esempio, dato un vettore, instanzia un nuovo vettore e ricopia tutti i valori contenuti nel primo.\
+Non ho la più pallida idea del perché alcuni costruttori funzionino (eg. copy constructor list). Devo chiedere al prof.\
 Il move constructor è un metodo che consente di evitare la copia di un valore (per poi distruggerla) "spostando" direttamente i valori in un nuovo oggetto. Dovrebbe essere implementato per mezzo di puntatori.\
 Implementare separatamente `Fold` `FoldPreOrder` `FoldPostOrder` `Map` `MapPreOrder` `MapPostOrder`\
 ### Esempio function pointer

@@ -11,6 +11,10 @@ void mytest();
 template<typename Data>
 void vectorMenu(lasd::Vector<Data>&);
 
+// Menu for list testing
+template<typename Data>
+void listMenu(lasd::List<Data>&);
+
 // Will return the selected struct, type and size for instantiation
 int selectStruct();
 int selectType();
@@ -30,12 +34,21 @@ void randomVecGen(lasd::Vector<float>&);
 template<>
 void randomVecGen(lasd::Vector<std::string>&);
 
+// Random list fill function
+template<typename Data>
+void randomListGen(lasd::List<Data>&, int);
+template<>
+void randomListGen(lasd::List<int>&, int);
+template<>
+void randomListGen(lasd::List<float>&, int);
+template<>
+void randomListGen(lasd::List<std::string>&, int);
+
 // Printing value function (maybe works only for vector)
 template<typename Data>
 void printValue(const Data&, void*);
 template<typename Data>
-void printIndex(const lasd::Vector<Data>&);
-
+void printIndex(const lasd::LinearContainer<Data>&); // probably can be modified to work with both linear containers
 
 // Point number 7
 template<typename Data>
@@ -44,7 +57,6 @@ template<>
 void applyFunction(int&, void*);
 template<>
 void applyFunction(double&, void*);
-
 
 // Functions calculated with fold function
 template<typename Data>

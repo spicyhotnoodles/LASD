@@ -87,12 +87,12 @@ public:
 
   // Specific member functions
 
-  void InsertAtFront(Data&); // Copy of the value
+  void InsertAtFront(const Data&); // Copy of the value
   void InsertAtFront(Data&&); // Move of the value
   void RemoveFromFront(); // (must throw std::length_error when empty)
   Data FrontNRemove(); // (must throw std::length_error when empty)
 
-  void InsertAtBack(Data&); // Copy of the value
+  void InsertAtBack(const Data&); // Copy of the value
   void InsertAtBack(Data&&); // Move of the value
 
   // Specific member functions (inherited from Container)

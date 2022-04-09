@@ -53,23 +53,13 @@ void mytest() {
                 }
             }
             else if (selectedStruct == 2) {
-                lasd::List<int> list;
-                list.InsertAtFront(5);
-                int value = 10;
-                list.InsertAtFront(value);
-                lasd::List<int> anotherList;
-                anotherList.InsertAtFront(5);
-                if (list.operator!=(anotherList))
-                    std::cout << "Le liste sono diverse" << std::endl;
-                else
-                    std::cout << "Le liste sono uguali" << std::endl;
-                list.InsertAtBack(7);
-                //list.InsertAtFront(8);
-                list.printList();
-                list.RemoveFromFront();
-                list.printList();
-                std::cout << list.FrontNRemove() << std::endl;
-                list.printList();
+                if (selectedType == 1) {
+                    if (selectedSize != 0) {
+                        lasd::List<int> list;
+                        randomListGen(list, selectedSize);
+                        listMenu(list);
+                    }
+                }
                 break;
             }
         }
@@ -200,6 +190,49 @@ void vectorMenu(lasd::Vector<Data>& vec) {
     } while(!exit);
 }
 
+template<typename Data>
+void listMenu(lasd::List<Data>& list) {
+    int choice = -1;
+    bool exit = false;
+    std::cout << std::endl;
+    do
+    {
+        std::cout << "---------- List Menu ----------" << std::endl;
+        std::cout << "1) Stampa lista" << std::endl;
+        std::cout << "2) Stampa elemento" << std::endl;
+        std::cout << "3) Ripopola lista" << std::endl;
+        std::cout << "4) Ricerca elemento" << std::endl;
+        std::cout << "5) Ridimensiona lista" << std::endl;
+        std::cout << "6) Applica fold function" << std::endl;
+        std::cout << "7) Applica map function (2n per gli interi, n^2 per i float, uppercase per le stringhe)" << std::endl;
+        std::cout << "0) Per terminare" << std::endl;
+        std::cin >> choice;
+        switch (choice)
+        {
+        case 1: {
+            if (list.Size() != 0)
+                list.MapPreOrder(&printValue<Data>, nullptr);
+            else
+                std::cout << "La lista è vuota.\nSuggerimento: estendere la dimensione della lista e ripopolarla." << std::endl;
+            break;
+        }
+        case 2: {
+            if (list.Size() != 0)
+                printIndex(list);
+            else
+                std::cout << "La lista è vuota.\nSuggerimento: estendere la dimensione della lista e ripopolarla." << std::endl;
+            break;
+        }
+        case 0:
+            exit = true;
+            break;
+        default:
+            break;
+        }
+    } while (!exit);
+    
+}
+
 
 template<typename Data>
 void randomVecGen(lasd::Vector<Data>& vec);
@@ -253,6 +286,19 @@ void randomVecGen(lasd::Vector<std::string>& vec) {
 }
 
 template<typename Data>
+void randomListGen(lasd::List<Data>& list, int size);
+
+template<>
+void randomListGen(lasd::List<int>& list, int size) {
+    std::default_random_engine gen(std::random_device{}());
+    std::uniform_int_distribution<int> dist(0,100);
+    for (ulong index = 0; index < size; index++) {
+        list.InsertAtBack(dist(gen));
+    }
+    std::cout << "Lista popolata" << std::endl;
+}
+
+template<typename Data>
 int checkType(const Data& value) {
     int i = 0;
     float f = 1.0;
@@ -273,7 +319,7 @@ void printValue(const Data& value, void* opt) {
 }
 
 template<typename Data>
-void printIndex(const lasd::Vector<Data>& vec) {
+void printIndex(const lasd::LinearContainer<Data>& container) {
     int choice = -1;
     std::cout << "Selezionare l'elemento da visualizzare:" << std::endl;
     std::cout << "1) Front" << std::endl;
@@ -281,17 +327,17 @@ void printIndex(const lasd::Vector<Data>& vec) {
     std::cout << "3) Index" << std::endl;
     std::cin >> choice;
     if(choice == 1)
-        std::cout << "Front: " << vec.Front() << std::endl;
+        std::cout << "Front: " << container.Front() << std::endl;
     else if (choice == 2)
-        std::cout << "Back: " << vec.Back() << std::endl;
+        std::cout << "Back: " << container.Back() << std::endl;
     else if (choice == 3) {
         int index = -1;
-        std::cout << "Inserisci l'indice dell'elemento da visualizzare (da 0 a " << vec.Size() - 1 << "): ";
+        std::cout << "Inserisci l'indice dell'elemento da visualizzare (da 0 a " << container.Size() - 1 << "): ";
         std::cin >> index;
-        if (index < 0 || index > vec.Size() - 1)
+        if (index < 0 || index > container.Size() - 1)
             throw std::out_of_range("Out of vector range!");
         else
-            std::cout << vec.operator[](index) << std::endl;
+            std::cout << container.operator[](index) << std::endl;
     }
 }
 
