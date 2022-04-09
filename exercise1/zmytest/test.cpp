@@ -66,6 +66,10 @@ void mytest() {
                 list.InsertAtBack(7);
                 //list.InsertAtFront(8);
                 list.printList();
+                list.RemoveFromFront();
+                list.printList();
+                std::cout << list.FrontNRemove() << std::endl;
+                list.printList();
                 break;
             }
         }
