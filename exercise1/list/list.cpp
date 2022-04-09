@@ -17,7 +17,6 @@ namespace lasd {
     template<typename Data>
     List<Data>::List(const List& list) {
         // Todo
-
     }
 
     // Move constructor
@@ -68,13 +67,11 @@ namespace lasd {
         Node* n = new Node;
         n->value = dat;
         if (head == nullptr) {
-            std::cout << "The list is empty!" << std::endl;
             n->next = tail;
             head = n;
             tail = n;
         }
         else {
-            std::cout << "The list is not empty" << std::endl;
             n->next = head;
             head = n;
         }
@@ -87,13 +84,11 @@ namespace lasd {
         Node* n = new Node;
         n->value = std::move(dat);
         if (head == nullptr) { // There are no elements
-            std::cout << "The list is empty!" << std::endl;
             n->next = tail;
             head = n;
             tail = n;
         }
         else {
-            std::cout << "The list is not empty" << std::endl;
             n->next = head;
             head = n;
         }
@@ -103,7 +98,10 @@ namespace lasd {
     template<typename Data>
     void List<Data>::RemoveFromFront() {
         if (size != 0) {
-            // Todo
+            Node* temp = new Node;
+            temp = head;
+            head = head->next;
+            delete temp;
         }
         else
             throw std::length_error("The list is empty!");
@@ -112,7 +110,9 @@ namespace lasd {
     template<typename Data>
     Data List<Data>::FrontNRemove() {
         if (size != 0) {
-            // Todo
+            Data value = head->value;
+            RemoveFromFront();
+            return value;
         }
         else
             throw std::length_error("The list is empty!");
@@ -124,13 +124,11 @@ namespace lasd {
         Node* n = new Node;
         n->value = dat;
         if (head == nullptr) {
-            std::cout << "The list is empty!" << std::endl;
             n->next = tail;
             head = n;
             tail = n;
         }
         else {
-            std::cout << "The list is not empty" << std::endl;
             n->next = nullptr;
             tail = n;
         }
@@ -143,13 +141,11 @@ namespace lasd {
         Node* n = new Node;
         n->value = std::move(dat);
         if (head == nullptr) {
-            std::cout << "The list is empty!" << std::endl;
             n->next = tail;
             head = n;
             tail = n;
         }
         else {
-            std::cout << "The list is not empty" << std::endl;
             Node* temp = new Node;
             temp = head;
             while (temp->next != nullptr)
@@ -210,6 +206,33 @@ namespace lasd {
         std::cout << "NULL" << std::endl;
     }
 
-/* ************************************************************************** */
+    template<typename Data>
+    void List<Data>::Map(MapFunctor fun, void* par, Node* curr) {
+        MapPreOrder(fun, par, curr);
+    }
+
+    template<typename Data>
+    void List<Data>::MapPreOrder(MapFunctor fun, void* par, Node* curr) {
+        for (; curr!= nullptr; curr = curr->next)
+            fun(curr->value, par);
+    }
+
+    template<typename Data>
+    void List<Data>::MapPostOrder(MapFunctor fun, void* par, Node* curr) {
+        if (curr!= nullptr) {
+            MapPostOrder(fun, par, curr->next);
+            fun(curr->value, par);
+        }
+    }
+
+    template<typename Data>
+    void List<Data>::FoldPreOrder(FoldFunctor fun, const void* par, void* acc, Node* curr) const {
+
+    }
+
+    template<typename Data>
+    void List<Data>::FoldPostOrder(FoldFunctor fun, const void* par, void* acc, Node* curr) const {
+
+    }
 
 }
