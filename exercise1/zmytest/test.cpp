@@ -59,8 +59,33 @@ void mytest() {
                         randomListGen(list, selectedSize);
                         listMenu(list);
                     }
+                    else {
+                        lasd::List<int> list;
+                        listMenu(list);
+                    }
                 }
-                break;
+                else if (selectedType == 2) {
+                    if (selectedSize != 0) {
+                        lasd::List<float> list;
+                        randomListGen(list, selectedSize);
+                        listMenu(list);
+                    }
+                    else {
+                        lasd::List<float> list;
+                        listMenu(list);
+                    }
+                }
+                else if (selectedType == 3) {
+                    if (selectedSize != 0) {
+                        lasd::List<std::string> list;
+                        randomListGen(list, selectedSize);
+                        listMenu(list);
+                    }
+                    else {
+                        lasd::List<std::string> list;
+                        listMenu(list);
+                    }
+                }
             }
         }
     } while(!exit);
@@ -73,7 +98,6 @@ int selectStruct() {
     std::cout << "2) Lista" << std::endl;
     std::cout << "0) Per terminare" << std::endl;
     std::cin >> choice;
-    std::cout << choice << std::endl;
     return choice;
 }
 
@@ -194,17 +218,16 @@ template<typename Data>
 void listMenu(lasd::List<Data>& list) {
     int choice = -1;
     bool exit = false;
-    std::cout << std::endl;
     do
     {
+        std::cout << std::endl;
         std::cout << "---------- List Menu ----------" << std::endl;
         std::cout << "1) Stampa lista" << std::endl;
         std::cout << "2) Stampa elemento" << std::endl;
         std::cout << "3) Ripopola lista" << std::endl;
         std::cout << "4) Ricerca elemento" << std::endl;
-        std::cout << "5) Ridimensiona lista" << std::endl;
-        std::cout << "6) Applica fold function" << std::endl;
-        std::cout << "7) Applica map function (2n per gli interi, n^2 per i float, uppercase per le stringhe)" << std::endl;
+        std::cout << "5) Applica fold function" << std::endl;
+        std::cout << "6) Applica map function (2n per gli interi, n^2 per i float, uppercase per le stringhe)" << std::endl;
         std::cout << "0) Per terminare" << std::endl;
         std::cin >> choice;
         switch (choice)
@@ -221,6 +244,65 @@ void listMenu(lasd::List<Data>& list) {
                 printIndex(list);
             else
                 std::cout << "La lista è vuota.\nSuggerimento: estendere la dimensione della lista e ripopolarla." << std::endl;
+            break;
+        }
+        case 3: {
+            if (list.Size() != 0) {
+                int backupSize = list.Size();
+                list.Clear();
+                randomListGen(list, backupSize);
+            }
+            else {
+                int size = -1;
+                std::cout << "La lista è vuota! Inserire il numero di nodi richiesti: ";
+                std::cin >> size;
+                if (size == 0)
+                    std::cout << "Errore! Inserire una dimensione > 0" << std::endl;
+                else
+                    randomListGen(list, size);
+            }
+            break;
+        }
+        case 4: {
+            if (list.Size() != 0) {
+                Data value;
+                std::cout << "Inserire l'elemento da ricercare: ";
+                std::cin >> value;
+                if(list.Exists(value))
+                    std::cout << "L'elemento è presente nella lista" << std::endl;
+                else
+                    std::cout << "L'elemento non è presente nella lista" << std::endl;
+            }
+            else
+                std::cout << "La lista è vuota!" << std::endl;
+            break;
+        }
+        case 5: {
+            int n = -1;
+            int type = -1;
+            std::cout << "Inserisci il valore di n, il calcolo varia in base al tipo di struttura dichiarata: ";
+            std::cin >> n;
+            type = checkType(list.operator[](0));
+            if (type == 1) {
+                int result = 0;
+                list.FoldPreOrder(&applyFold<Data>, &n, &result);
+                std::cout << "Risultato: " << result << std::endl;
+            }
+            else if (type == 2) {
+                float result = 1.0;
+                list.FoldPreOrder(&applyFold<Data>, &n, &result);
+                std::cout << "Risultato: " << result << std::endl;
+            }
+            else if (type == 3) {
+                std::string result = "";
+                list.FoldPreOrder(&applyFold<Data>, &n, &result);
+                std::cout << "Risultato: " << result << std::endl;
+            } 
+            break;
+        }
+        case 6: {
+            list.MapPreOrder(&applyFunction<Data>, nullptr);
+            std::cout << "Funzione applicata, i valori sono stati modificati. Effettua una stampa per visualizzare i dettagli" << std::endl;
             break;
         }
         case 0:
@@ -298,6 +380,33 @@ void randomListGen(lasd::List<int>& list, int size) {
     std::cout << "Lista popolata" << std::endl;
 }
 
+template<>
+void randomListGen(lasd::List<float>& list, int size) {
+    std::default_random_engine gen(std::random_device{}());
+    std::uniform_real_distribution<float> dist(1.0,100);
+    for (ulong index = 0; index < size; index++) {
+        list.InsertAtBack(dist(gen));
+    }
+    std::cout << "Lista popolata" << std::endl;
+}
+
+template<>
+void randomListGen(lasd::List<std::string>& list, int size) {
+    const std::string characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    std::random_device random_device;
+    std::mt19937 generator(random_device());
+    std::uniform_int_distribution<> distribution(0, characters.size() - 1);
+    std::string random_string;
+    for (ulong index = 0; index < size; index++) {
+        random_string = "";
+        int length = getRandomInt();
+        for (ulong i = 0; i < length; ++i)
+            random_string += characters[distribution(generator)];
+        list.InsertAtBack(random_string);
+    }
+    std::cout << "Lista popolata" << std::endl;
+}
+
 template<typename Data>
 int checkType(const Data& value) {
     int i = 0;
@@ -335,7 +444,7 @@ void printIndex(const lasd::LinearContainer<Data>& container) {
         std::cout << "Inserisci l'indice dell'elemento da visualizzare (da 0 a " << container.Size() - 1 << "): ";
         std::cin >> index;
         if (index < 0 || index > container.Size() - 1)
-            throw std::out_of_range("Out of vector range!");
+            throw std::out_of_range("Out of container range!");
         else
             std::cout << container.operator[](index) << std::endl;
     }

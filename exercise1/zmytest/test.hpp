@@ -15,7 +15,7 @@ void vectorMenu(lasd::Vector<Data>&);
 template<typename Data>
 void listMenu(lasd::List<Data>&);
 
-// Will return the selected struct, type and size for instantiation
+// Will return the selected struct, type and size for declaration
 int selectStruct();
 int selectType();
 int selectSize();
@@ -44,11 +44,13 @@ void randomListGen(lasd::List<float>&, int);
 template<>
 void randomListGen(lasd::List<std::string>&, int);
 
-// Printing value function (maybe works only for vector)
+// Printing value function
 template<typename Data>
 void printValue(const Data&, void*);
+
+// Print value of container with given index
 template<typename Data>
-void printIndex(const lasd::LinearContainer<Data>&); // probably can be modified to work with both linear containers
+void printIndex(const lasd::LinearContainer<Data>&); // works with both vector and list
 
 // Point number 7
 template<typename Data>

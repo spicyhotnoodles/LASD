@@ -66,5 +66,6 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "codetogether.virtualCursorJoin": "sharedVirtualCursor"
 }
