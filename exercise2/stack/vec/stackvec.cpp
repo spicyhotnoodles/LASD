@@ -13,15 +13,6 @@ StackVec<Data>::StackVec(const StackVec<Data>& stack) {
         Elements[index] = stack[index];
 }
 
-/* template<typename Data>
-  StackVec<Data>::StackVec(const LinearContainer<Data> & copyContainer){
-        DataVector = new Data[copyContainer.Size()];
-        size = copyContainer.Size();
-        for(ulong i = 0;i<size; i++){
-            Push(copyContainer[i]);
-        }
-    } */
-
 // Move constructor
 template<typename Data>
 StackVec<Data>::StackVec(StackVec<Data>&& stack) noexcept {
@@ -40,13 +31,24 @@ StackVec<Data>& StackVec<Data>::operator=(const StackVec& stack) {
     return *this;
 }
 
-// Move assignement
+// Move assignment
 template<typename Data>
 StackVec<Data>& StackVec<Data>::operator=(StackVec&& stack) noexcept {
     std::swap(Elements, stack.Elements);
     std::swap(size, stack.size);
     std::swap(top, stack.top);
     return *this;
+}
+
+// Comparison operators
+template<typename Data>
+bool StackVec<Data>::operator==(const StackVec& stack) const noexcept {
+    return (Vector<Data>::operator==(stack));
+}
+
+template<typename Data>
+bool StackVec<Data>::operator!=(const StackVec& stack) const noexcept {
+    return (Vector<Data>::operator!=(stack));
 }
 
 // Specific member functions (inherited from Stack)
@@ -71,13 +73,17 @@ Data StackVec<Data>::Top() {
 
 template<typename Data>
 void StackVec<Data>::Pop() {
-    if (top <= (size/4)) {
-        std::cout << "Lo stack può essere ridotto" << std::endl;
-        Reduce();
-        top--;
+    if (top == 0)
+        throw std::length_error("Stack is empty!");
+    else {
+        if (top <= (size/4)) {
+            std::cout << "Lo stack può essere ridotto" << std::endl;
+            Reduce();
+            top--;
+        }
+        else
+            top--;
     }
-    else
-        top--;
 }
 
 template<typename Data>

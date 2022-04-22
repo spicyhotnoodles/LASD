@@ -4,6 +4,9 @@
 #include "../vector/vector.hpp"
 #include "../list/list.hpp"
 #include "../stack/vec/stackvec.hpp"
+#include "../stack/lst/stacklst.hpp"
+#include "../queue/vec/queuevec.hpp"
+#include "../queue/lst/queuelst.hpp"
 
 // The complete student test
 void mytest();
@@ -20,11 +23,15 @@ void listMenu(lasd::List<Data>&);
 template<typename Data>
 void stackMenu(lasd::Stack<Data>&); // Should work for both stack implementations
 
+// Menu for queue testing
+template<typename Data>
+void queueMenu(lasd::Queue<Data>&);
+
 // Will return the selected struct, type and size for declaration
 int selectStruct();
 int selectType();
 int selectSize();
-int selectStack();
+int selectImple();
 
 // Will return the Data type
 template<typename Data>
@@ -49,6 +56,16 @@ template<>
 void randomListGen(lasd::List<float>&, int);
 template<>
 void randomListGen(lasd::List<std::string>&, int);
+
+// Random stack fill function
+template<typename Data>
+void randomStackGen(lasd::Stack<Data>&);
+template<>
+void randomStackGen(lasd::Stack<int>&);
+template<>
+void randomStackGen(lasd::Stack<float>&);
+template<>
+void randomStackGen(lasd::Stack<std::string>&);
 
 // Printing value function
 template<typename Data>

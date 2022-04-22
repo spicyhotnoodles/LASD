@@ -16,7 +16,7 @@ namespace lasd {
 
     // Copy constructor
     template<typename Data>
-    List<Data>::List(const List& list) {
+    List<Data>::List(const List<Data>& list) {
         Node* tmp = list.head;
         while (tmp != nullptr) {
             InsertAtBack(tmp->value);
@@ -26,7 +26,7 @@ namespace lasd {
 
     // Move constructor
     template<typename Data>
-    List<Data>::List(List&& list) noexcept {
+    List<Data>::List(List<Data>&& list) noexcept {
         std::swap(head, list.head);
         std::swap(tail, list.tail);
         std::swap(size, list.size);        
@@ -34,7 +34,7 @@ namespace lasd {
 
     // Copy assignment
     template<typename Data>
-    List<Data>& List<Data>::operator=(const List& list) {
+    List<Data>& List<Data>::operator=(const List<Data>& list) {
         List<Data>* tempList = new List<Data>(list);
         std::swap(*tempList, *this);
         delete tempList;
@@ -43,7 +43,7 @@ namespace lasd {
 
     // Move assignment
     template<typename Data>
-    List<Data>& List<Data>::operator=(List&& list) noexcept {
+    List<Data>& List<Data>::operator=(List<Data>&& list) noexcept {
         std::swap(head, list.head);
         std::swap(tail, list.tail);
         std::swap(size, list.size);
@@ -52,7 +52,7 @@ namespace lasd {
 
     // Comparison operators
     template<typename Data>
-    bool List<Data>::operator==(const List& list) const noexcept {
+    bool List<Data>::operator==(const List<Data>& list) const noexcept {
         if (size != list.size)
             return false;
         else {
@@ -69,11 +69,8 @@ namespace lasd {
     }
 
     template<typename Data>
-    bool List<Data>::operator!=(const List& list) const noexcept {
-        if (size != list.size)
-            return false;
-        else
-            return !(*this == list);
+    bool List<Data>::operator!=(const List<Data>& list) const noexcept {
+        return !(*this == list);
     }
 
     // Copy of the value
@@ -115,6 +112,7 @@ namespace lasd {
             temp = head;
             head = head->next;
             delete temp;
+            size--;
         }
         else
             throw std::length_error("The list is empty!");

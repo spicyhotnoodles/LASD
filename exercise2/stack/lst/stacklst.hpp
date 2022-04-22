@@ -27,7 +27,6 @@ protected:
   using List<Data>::size;
   using List<Data>::head;
   using typename List<Data>::Node;
-  Node* top = head;
   //typename List<Data>::Node* top = head;
 
   // ...
@@ -61,12 +60,14 @@ public:
 
   // Specific member functions (inherited from Stack)
 
-  Data& Top() const override; // Override Stack member (constant version; must throw std::length_error when empty)
+  const Data& Top() const override; // Override Stack member (constant version; must throw std::length_error when empty)
   Data Top() override; // Override Stack member (must throw std::length_error when empty)
   void Pop() override; // Override Stack member (must throw std::length_error when empty)
   Data TopNPop() override; // Override Stack member (must throw std::length_error when empty)
   void Push(const Data&) override; // Override Stack member (copy of the value)
   void Push(Data&&) override; // Override Stack member (move of the value)
+  //inline ulong Size() const override { return size; }; // Override Stack member 
+
 
   // Specific member functions (inherited from Container)
 

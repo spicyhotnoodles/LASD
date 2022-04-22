@@ -67,23 +67,23 @@ public:
   List(const LinearContainer<Data>&); // A list obtained from a LinearContainer
 
   // Copy constructor
-  List(const List&);
+  List(const List<Data>&);
 
   // Move constructor
-  List(List&&) noexcept;
+  List(List<Data>&&) noexcept;
 
   // Destructor
   ~List() = default;
 
   // Copy assignment
-  List& operator=(const List&);
+  List& operator=(const List<Data>&);
 
   // Move assignment
-  List& operator=(List&&) noexcept;
+  List& operator=(List<Data>&&) noexcept;
 
   // Comparison operators
-  bool operator==(const List&) const noexcept;
-  bool operator!=(const List&) const noexcept;
+  bool operator==(const List<Data>&) const noexcept;
+  bool operator!=(const List<Data>&) const noexcept;
 
   // Specific member functions
 

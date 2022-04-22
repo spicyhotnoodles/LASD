@@ -68,7 +68,10 @@ public:
   bool Empty() const noexcept override; // Override Container member
 
   inline virtual ulong Size() const noexcept override { // Override Container member
-    return top-1; // return the number of values in the stack (not the stack size!)
+    if (top == 0)
+      return 0;
+    else
+      return top; // return the number of values in the stack (not the stack size!)
   }
 
   void Clear() override; // Override Container member

@@ -5,7 +5,6 @@ namespace lasd {
 template<typename Data>
 StackLst<Data>::StackLst(const StackLst<Data>& stack) {
     Node* tmp = stack.head;
-    Node* top = stack.top;
     while (tmp != nullptr) {
         List<Data>::InsertAtBack(tmp->value);
         tmp = tmp->next;
@@ -16,7 +15,6 @@ StackLst<Data>::StackLst(const StackLst<Data>& stack) {
 template<typename Data>
 StackLst<Data>::StackLst(StackLst<Data>&& stack) noexcept {
     std::swap(head, stack.head);
-    std::swap(top, stack.top);
     std::swap(size, stack.size);
 }
 
@@ -33,35 +31,36 @@ StackLst<Data>& StackLst<Data>::operator=(const StackLst<Data>& stack) {
 template<typename Data>
 StackLst<Data>& StackLst<Data>::operator=(StackLst<Data>&& stack) noexcept {
     std::swap(head, stack.head);
-    std::swap(top, stack.top);
     std::swap(size, stack.size);
     return *this;
 }
 
 template<typename Data>
 bool StackLst<Data>::operator==(const StackLst<Data>& stack) const noexcept {
-    List<Data>::operator==(stack);
+    return (List<Data>::operator==(stack));
 }
 
 template<typename Data>
 bool StackLst<Data>::operator!=(const StackLst<Data>& stack) const noexcept {
-    List<Data>::operator!=(stack);
+    return (List<Data>::operator!=(stack));
 }
 
 template<typename Data>
-Data& StackLst<Data>::Top() const {
+const Data& StackLst<Data>::Top() const {
     if (size == 0)
         throw std::length_error("Stack is empty");
     else
-        return top->value;
+        return head->value;
 }
 
 template<typename Data>
 Data StackLst<Data>::Top() {
     if (size == 0)
         throw std::length_error("Stack is empty");
-    else
-        return top->value;
+    else {
+        //std::cout << head->value << std::endl;
+        return head->value;
+    }
 }
 
 template<typename Data>
@@ -69,8 +68,8 @@ void StackLst<Data>::Pop() {
     if (size == 0)
         throw std::length_error("Stack is empty");
     else {
-        Node* temp = top;
-        top = top->next;
+        Node* temp = head;
+        head = head->next;
         delete temp;
         size--;
     }
@@ -81,9 +80,9 @@ Data StackLst<Data>::TopNPop() {
     if (size == 0)
         throw std::length_error("Stack is empty");
     else {
-        Node* temp = top; // ragionaci
+        Data tmp = Top();
         Pop();
-        return temp->value;
+        return tmp;
     }
 }
 
@@ -104,7 +103,16 @@ void StackLst<Data>::Clear() {
 
 template<typename Data>
 void StackLst<Data>::printStack() const noexcept {
-    List<Data>::printList();
+    if (size != 0) {
+            Node* curr = head;
+            while(curr != nullptr) {
+                std::cout << curr->value << std::endl;
+                curr = curr->next;
+            }
+        }
+        else {
+            std::cout << "Lo stack è vuoto!" << std::endl;
+        }
 }
 
 
