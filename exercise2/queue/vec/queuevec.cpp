@@ -81,7 +81,7 @@ void QueueVec<Data>::Dequeue() {
         throw std::length_error("Queue is empty!");
     else {
         if (queueSize <= (size/4) && size > 5) {// if number of the elements is 1/4 of the size
-            std::cout << "La coda può essere ridotta" << std::endl;
+            //std::cout << "La coda può essere ridotta" << std::endl;
             Reduce();
             front = (front + 1) % size;
         }
@@ -136,10 +136,14 @@ void QueueVec<Data>::Enqueue(Data&& dat) {
 template<typename Data>
 void QueueVec<Data>::printQueue() const noexcept {
     std::cout << "Queue: " << std::endl;
-    for (int index = front; index <= rear; index++)
-        std::cout << Elements[index] << std::endl;
-    std::cout << "Front value: " << front << std::endl;
-    std::cout << "Rear value: " << rear << std::endl;
+    std::cout << "Front <-- ";
+    for (int index = front; index <= rear; index++) {
+        std::cout << Elements[index];
+        std::cout << "<-- ";
+    }
+    std::cout << "Rear" << std::endl;
+    //std::cout << "Front value: " << front << std::endl;
+    //std::cout << "Rear value: " << rear << std::endl;
 }
 
 template<typename Data>

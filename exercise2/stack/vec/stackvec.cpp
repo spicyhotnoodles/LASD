@@ -77,7 +77,7 @@ void StackVec<Data>::Pop() {
         throw std::length_error("Stack is empty!");
     else {
         if (top <= (size/4)) {
-            std::cout << "Lo stack può essere ridotto" << std::endl;
+            //std::cout << "Lo stack può essere ridotto" << std::endl;
             Reduce();
             top--;
         }
@@ -100,7 +100,7 @@ Data StackVec<Data>::TopNPop() {
 template<typename Data>
 void StackVec<Data>::Push(const Data& dat) {
     if (top >= size) {
-        std::cout << "Lo stack deve essere espanso" << std::endl;
+        //std::cout << "Lo stack deve essere espanso" << std::endl;
         Expand();
         Elements[top] = dat;
         top++;
@@ -164,7 +164,7 @@ void StackVec<Data>::printStack() const noexcept {
     std::cout << "Stack: " << std::endl;
     for (int index = top - 1; index >= 0; index--)
         std::cout << Elements[index] << std::endl;
-    std::cout << "Top value: " << top << std::endl;
+    //std::cout << "Top value: " << top << std::endl;
 }
 
 }
