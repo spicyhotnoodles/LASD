@@ -5,9 +5,8 @@
 
 #include "../container/container.hpp"
 #include "../iterator/iterator.hpp"
-#include "../stack/vec/stackvec.hpp"
+#include "../stack/lst/stacklst.hpp"
 #include "../queue/lst/queuelst.hpp"
-// #include "..."
 
 
 namespace lasd {
@@ -78,12 +77,12 @@ public:
     virtual Data& Element() noexcept = 0; // Mutable access to the element (concrete function should not throw exceptions)
     virtual const Data& Element() const noexcept = 0; // Immutable access to the element (concrete function should not throw exceptions)
 
-    bool IsLeaf() const noexcept = 0; // (concrete function should not throw exceptions)
-    bool HasLeftChild() const noexcept = 0; // (concrete function should not throw exceptions)
-    bool HasRightChild() const noexcept = 0; // (concrete function should not throw exceptions)
+    virtual bool IsLeaf() const noexcept = 0; // (concrete function should not throw exceptions)
+    virtual bool HasLeftChild() const noexcept = 0; // (concrete function should not throw exceptions)
+    virtual bool HasRightChild() const noexcept = 0; // (concrete function should not throw exceptions)
 
-    virtual Node& LeftChild() const noexcept = 0; // (concrete function must throw std::out_of_range when not existent)
-    virtual Node& RightChild() const noexcept = 0; // (concrete function must throw std::out_of_range when not existent)
+    virtual Node& LeftChild() const = 0; // (concrete function must throw std::out_of_range when not existent)
+    virtual Node& RightChild() const = 0; // (concrete function must throw std::out_of_range when not existent)
 
   };
 
@@ -158,7 +157,7 @@ protected:
 
   // Auxiliary member functions (for PreOrderFoldableContainer)
 
-  void FoldPreOrder(FoldFunctor, const void*, void*, Node*); // Accessory function executing from one node of the tree
+  void FoldPreOrder(FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one node of the tree
 
   // Auxiliary member functions (for PostOrderMappableContainer)
 
@@ -166,7 +165,7 @@ protected:
 
   // Auxiliary member functions (for PostOrderFoldableContainer)
 
-  void FoldPostOrder(FoldFunctor, const void*, void*, Node*); // Accessory function executing from one node of the tree
+  void FoldPostOrder(FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one node of the tree
 
   // Auxiliary member functions (for InOrderMappableContainer)
 
@@ -174,7 +173,7 @@ protected:
 
   // Auxiliary member functions (for InOrderFoldableContainer)
 
-  void FoldInOrder(FoldFunctor, const void*, void*, Node*); // Accessory function executing from one node of the tree
+  void FoldInOrder(FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one node of the tree
 
   // Auxiliary member functions (for BreadthMappableContainer)
 
@@ -182,7 +181,7 @@ protected:
 
   // Auxiliary member functions (for BreadthFoldableContainer)
 
-  void FoldBreadth(FoldFunctor, const void*, void*, Node*); // Accessory function executing from one node of the tree
+  void FoldBreadth(FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one node of the tree
 
 };
 
@@ -201,11 +200,13 @@ private:
 protected:
 
   StackLst<struct BinaryTree<Data>::Node*> stack;
+  struct BinaryTree<Data>::Node* current;
+  struct BinaryTree<Data>::Node* resetRoot;
 
 public:
 
   // Specific constructors
-  BTPreOrderIterator(BinaryTree<Data>&); // An iterator over a given binary tree
+  BTPreOrderIterator(const BinaryTree<Data>&); // An iterator over a given binary tree
 
   // Copy constructor
   BTPreOrderIterator(const BTPreOrderIterator&);
@@ -214,13 +215,13 @@ public:
   BTPreOrderIterator(BTPreOrderIterator&&) noexcept;
 
   // Destructor
-  virtual ~BTPreOrderIterator() = default;
+  virtual ~BTPreOrderIterator();
 
   // Copy assignment
-  BTPreOrderIterator operator=(const BTPreOrderIterator&);
+  BTPreOrderIterator& operator=(const BTPreOrderIterator&);
 
   // Move assignment
-  BTPreOrderIterator operator=(BTPreOrderIterator&&) noexcept;
+  BTPreOrderIterator& operator=(BTPreOrderIterator&&) noexcept;
 
   // Comparison operators
   bool operator==(const BTPreOrderIterator&) const noexcept;
@@ -257,6 +258,12 @@ private:
 protected:
 
   StackLst<struct BinaryTree<Data>::Node*> stack;
+  struct BinaryTree<Data>::Node* current;
+  struct BinaryTree<Data>::Node* resetRoot;
+  struct BinaryTree<Data>::Node* last;
+
+  // Auxiliary function
+  void setMinLeaf(struct BinaryTree<Data>::Node*);
 
 public:
 
@@ -286,7 +293,7 @@ public:
 
   Data& operator*() const override; // (throw std::out_of_range when terminated)
 
-  void Terminated() const noexcept override; // (should not throw exceptions)
+  bool Terminated() const noexcept override; // (should not throw exceptions)
 
   // Specific member functions (inherited from ForwardIterator)
 
@@ -313,6 +320,11 @@ private:
 protected:
 
   StackLst<struct BinaryTree<Data>::Node*> stack;
+  struct BinaryTree<Data>::Node* current;
+  struct BinaryTree<Data>::Node* resetRoot;
+
+  // Auxiliary function
+  void setMinLeaf(struct BinaryTree<Data>::Node*);
 
 public:
 
@@ -367,6 +379,8 @@ private:
 protected:
 
   QueueLst<struct BinaryTree<Data>::Node*> queue;
+  struct BinaryTree<Data>::Node* current;
+  struct BinaryTree<Data>::Node* resetRoot;
 
 public:
 

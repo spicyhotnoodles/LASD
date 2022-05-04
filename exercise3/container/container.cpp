@@ -68,6 +68,16 @@ namespace lasd {
         FoldPostOrder(fun, acc, res);
     }
 
+    template<typename Data>
+    void InOrderMappableContainer<Data>::Map(MapFunctor fun, void* par) {
+        MapInOrder(fun, par);
+    }
+
+    template<typename Data>
+    void InOrderFoldableContainer<Data>::Fold(FoldFunctor fun, const void* par, void* acc) const {
+        FoldInOrder(fun, par, acc);
+    }
+
 }
 
 /* ************************************************************************** */

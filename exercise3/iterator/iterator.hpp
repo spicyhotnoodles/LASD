@@ -22,10 +22,10 @@ public:
   ~Iterator() = default;
 
   // Copy assignment
-  virtual Iterator& operator=(const Iterator&) = 0; // Copy assignment of abstract types should not be possible.
+  virtual Iterator& operator=(const Iterator&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  virtual Iterator& operator=(Iterator&&) noexcept = 0; // Move assignment of abstract types should not be possible.
+  virtual Iterator& operator=(Iterator&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   // Comparison operators
   bool operator==(const Iterator&) const noexcept = delete; // Comparison of abstract types might not be possible.
@@ -56,10 +56,10 @@ public:
   ~ForwardIterator() = default;
 
   // Copy assignment
-  virtual ForwardIterator& operator=(const ForwardIterator&) = 0; // Copy assignment of abstract types should not be possible.
+  virtual ForwardIterator& operator=(const ForwardIterator&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  virtual ForwardIterator& operator=(ForwardIterator&&) noexcept = 0; // Move assignment of abstract types should not be possible.
+  virtual ForwardIterator& operator=(ForwardIterator&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   // Comparison operators
   bool operator==(const ForwardIterator&) const noexcept = delete; // Comparison of abstract types might not be possible.
@@ -88,10 +88,10 @@ public:
   ~BackwardIterator() = default;
 
   // Copy assignment
-  virtual BackwardIterator& operator=(const BackwardIterator&) = 0; // Copy assignment of abstract types should not be possible.
+  virtual BackwardIterator& operator=(const BackwardIterator&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  virtual BackwardIterator& operator=(BackwardIterator&&) noexcept = 0; // Move assignment of abstract types should not be possible.
+  virtual BackwardIterator& operator=(BackwardIterator&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   // Comparison operators
   bool operator==(const BackwardIterator&) const noexcept = delete; // Comparison of abstract types might not be possible.
@@ -124,10 +124,10 @@ public:
   ~BidirectionalIterator() = default;
 
   // Copy assignment
-  virtual BidirectionalIterator& operator=(const BidirectionalIterator&) = 0; // Copy assignment of abstract types should not be possible.
+  virtual BidirectionalIterator& operator=(const BidirectionalIterator&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  virtual BidirectionalIterator& operator=(BidirectionalIterator&&) noexcept = 0; // Move assignment of abstract types should not be possible.
+  virtual BidirectionalIterator& operator=(BidirectionalIterator&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   // Comparison operators
   bool operator==(const BidirectionalIterator&) const noexcept = delete; // Comparison of abstract types might not be possible.
@@ -157,10 +157,10 @@ public:
   ~ResettableIterator() = default;
 
   // Copy assignment
-  virtual ResettableIterator& operator=(const ResettableIterator&) = 0; // Copy assignment of abstract types should not be possible.
+  virtual ResettableIterator& operator=(const ResettableIterator&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  virtual ResettableIterator& operator=(ResettableIterator&&) noexcept = 0; // Move assignment of abstract types should not be possible.
+  virtual ResettableIterator& operator=(ResettableIterator&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   // Comparison operators
   bool operator==(const ResettableIterator&) const noexcept = delete; // Comparison of abstract types might not be possible.
@@ -168,7 +168,7 @@ public:
 
   // Specific member functions
 
-  virtual ResettableIterator& Reset() const noexcept = 0; // (concrete function should not throw exceptions)
+  virtual void Reset() noexcept = 0; // (concrete function should not throw exceptions)
 
 };
 

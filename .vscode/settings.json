@@ -1,4 +1,6 @@
 {
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs":"active",
     "files.associations": {
         "iostream": "cpp",
         "array": "cpp",
@@ -65,6 +67,6 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
     }
 }
