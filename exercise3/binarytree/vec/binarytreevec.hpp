@@ -104,6 +104,8 @@ public:
 
   void FoldBreadth(FoldFunctor, const void*, void*) const override; // Override BreadthFoldableContainer member
 
+  void printTree(const std::string&, struct BinaryTree<Data>::Node*, bool) override;
+
 };
 
 }

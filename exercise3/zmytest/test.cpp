@@ -6,12 +6,12 @@ void mytest() {
     bool exit = false;
     do {
         std::cout << std::endl;
-        std::cout << "--------- Test Studente ----------" << std::endl;
-        //lasd::Vector<int> vector(5);
-        /* for (int i = 0; i < 5; i++) {
+        std::cout << "---------- Test Studente -----------" << std::endl;
+        lasd::Vector<int> vector(5);
+        for (int i = 0; i < 5; i++) {
             vector.operator[](i) = i + 1;
-        } */
-        lasd::Vector<std::string> vector(29);
+        }
+        /* lasd::Vector<std::string> vector(29);
         vector.operator[](0) = "A";
         vector.operator[](1) = "B";
         vector.operator[](2) = "L";
@@ -40,9 +40,9 @@ void mytest() {
         vector.operator[](25) = "[...]";
         vector.operator[](26) = "[...]";
         vector.operator[](27) = "[...]";
-        vector.operator[](28) = "[...]";
-        //lasd::BinaryTreeVec<int> binaryTree(vector);
-        lasd::BinaryTreeVec<std::string> binaryTree(vector);
+        vector.operator[](28) = "[...]"; */
+        lasd::BinaryTreeVec<int> binaryTree(vector);
+        //lasd::BinaryTreeVec<std::string> binaryTree(vector);
         binaryTreeMenu(binaryTree);
         exit = true;
         int selectedStruct = selectStruct();
@@ -250,19 +250,17 @@ void stackMenu(lasd::Stack<Data>& stack) {
 }
 
 template<typename Data>
-void printTree(std::string& string, struct lasd::BinaryTree<Data>::Node* root, bool value) {
-    std::cout << "Trying" << std::endl;
-}
-
-template<typename Data>
 void binaryTreeMenu(lasd::BinaryTree<Data>& binaryTree) {
     int choice = -1;
     bool exit = false;
-    //struct lasd::BinaryTree<Data>::Node* node = &(binaryTree.Root());
+    std::string aString = "";
     do {
-        //printTree("", node, false);
         std::cout << std::endl;
         std::cout << "---------- Binary Tree Menu ----------" << std::endl;
+        std::cout << "Random generated tree: " << std::endl;
+        binaryTree.printTree(aString, &(binaryTree.Root()), false);
+        std::cout << "NB: Il figlio sinistro viene stampato prima del figlio destro" << std::endl;    
+        std::cout << "--------------------------------------" << std::endl;
         std::cout << "1) Effettua visita sull'albero" << std::endl;
         std::cout << "0) Per terminare" << std::endl;
         std::cin >> choice;

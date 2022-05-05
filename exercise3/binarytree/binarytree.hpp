@@ -147,6 +147,8 @@ public:
 
   void FoldBreadth(FoldFunctor, const void*, void*) const override; // Override BreadthFoldableContainer member
 
+  virtual void printTree(const std::string&, struct BinaryTree<Data>::Node*, bool) = 0;
+
 protected:
 
   // Order functions starting from specific node
@@ -397,10 +399,10 @@ public:
   virtual ~BTBreadthIterator();
 
   // Copy assignment
-  BTBreadthIterator& operator=(const BTBreadthIterator);
+  BTBreadthIterator& operator=(const BTBreadthIterator&);
 
   // Move assignment
-  BTBreadthIterator operator=(BTBreadthIterator&&) noexcept;
+  BTBreadthIterator& operator=(BTBreadthIterator&&) noexcept;
 
   // Comparison operators
   bool operator==(const BTBreadthIterator&) const noexcept;

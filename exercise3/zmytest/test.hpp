@@ -38,10 +38,6 @@ void treeTraversal(lasd::BinaryTree<Data>&);
 template<typename Data>
 void printNode(const Data&, void*);
 
-// Print tree
-template<typename Data>
-void printTree(std::string&, struct lasd::BinaryTree<Data>::Node* node, bool);
-
 // Random list fill function
 template<typename Data>
 void randomListGen(lasd::List<Data>&, int);
