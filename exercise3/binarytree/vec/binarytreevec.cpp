@@ -125,7 +125,7 @@ BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(BinaryTreeVec&& btvec) noexc
 // ! Verificare che funzioni
 template<typename Data>
 bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec& btvec) const noexcept {
-    if (size != btvec.size)
+    /* if (size != btvec.size)
         return false;
     else {
         for (int i = 0; i < size; i++) {
@@ -133,7 +133,8 @@ bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec& btvec) const noexcept 
                 return false;
         }
         return true;
-    }
+    } */
+    return BinaryTree<Data>::operator==(btvec);
 }
 
 template<typename Data>
@@ -175,22 +176,6 @@ void BinaryTreeVec<Data>::FoldBreadth(FoldFunctor fun, const void* par, void* ac
     //MapBreadth(fun, par, acc, &(Root()));
     BinaryTree<Data>::FoldBreadth(fun, par, acc, &(Root())); // to call in parent class method
 }
-
-template<typename Data>
-void BinaryTreeVec<Data>::printTree(const std::string& prefix, struct BinaryTree<Data>::Node* root, bool isLeft) {
-    if (root != nullptr) {
-        std::cout << prefix;
-        std::cout << (isLeft ? "├──" : "└──" );
-        // print the value of the node
-        std::cout << root->Element() << std::endl;
-        // enter the next tree level - left and right branch
-        if (root->HasLeftChild())
-            printTree(prefix + (isLeft ? "│   " : "    "), &(root->LeftChild()), true);
-        if (root->HasRightChild())
-            printTree(prefix + (isLeft ? "│   " : "    "), &(root->RightChild()), false);
-    }
-}
-
 
 /* ************************************************************************** */
 

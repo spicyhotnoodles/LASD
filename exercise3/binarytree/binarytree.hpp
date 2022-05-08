@@ -147,7 +147,7 @@ public:
 
   void FoldBreadth(FoldFunctor, const void*, void*) const override; // Override BreadthFoldableContainer member
 
-  virtual void printTree(const std::string&, struct BinaryTree<Data>::Node*, bool) = 0;
+  virtual void printTree(const std::string&, struct BinaryTree<Data>::Node*, bool);
 
 protected:
 

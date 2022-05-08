@@ -100,8 +100,6 @@ public:
 
   void Clear() override; // Override Container member
 
-  virtual void printTree(const std::string&, struct BinaryTree<Data>::Node*, bool) override;
-
 };
 
 }

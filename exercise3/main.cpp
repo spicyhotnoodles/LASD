@@ -8,7 +8,6 @@
 /* ************************************************************************** */
 
 int main() {
-  std::cout << "Lasd Libraries 2020" << std::endl;
   int input = 0;
   bool flag = true;
   std::cout << "---------- Menu ----------" << std::endl;

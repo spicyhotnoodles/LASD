@@ -57,7 +57,7 @@ void stestBinaryTreeInt(uint& testnum, uint& testerr) {
     cout << endl << "Begin of BinaryTreeLnk<int> Test:" << endl;
     stestBinaryTreeInt(btlnk, loctestnum, loctesterr);
     cout << "\n";
-
+    
     lasd::BinaryTreeVec<int> copbtvec(btvec);
     EqualBT(loctestnum, loctesterr, copbtvec, btvec);
     btvec.Clear();

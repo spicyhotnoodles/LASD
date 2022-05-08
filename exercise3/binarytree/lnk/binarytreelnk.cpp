@@ -105,10 +105,10 @@ struct BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::copyTreeLnk(struct Bin
     if (copyNode != nullptr) {
         tmp = new struct BinaryTreeLnk<Data>::NodeLnk(copyNode->value);
         if (copyNode->leftChild != nullptr) {
-            copyNode->leftChild = copyTreeLnk(copyNode->leftChild);
+            tmp->leftChild = copyTreeLnk(copyNode->leftChild);
         }
         if (copyNode->rightChild != nullptr) {
-            copyNode->rightChild = copyTreeLnk(copyNode->rightChild);
+            tmp->rightChild = copyTreeLnk(copyNode->rightChild);
         }
     }
     return tmp;
@@ -173,22 +173,6 @@ void BinaryTreeLnk<Data>::Clear() {
     root = nullptr;
     size = 0;
 }
-
-template<typename Data>
-void BinaryTreeLnk<Data>::printTree(const std::string& prefix, struct BinaryTree<Data>::Node* root, bool isLeft) {
-    if (root != nullptr) {
-        std::cout << prefix;
-        std::cout << (isLeft ? "├──" : "└──" );
-        // print the value of the node
-        std::cout << root->Element() << std::endl;
-        // enter the next tree level - left and right branch
-        if (root->HasLeftChild())
-            printTree(prefix + (isLeft ? "│   " : "    "), &(root->LeftChild()), true);
-        if (root->HasRightChild())
-            printTree(prefix + (isLeft ? "│   " : "    "), &(root->RightChild()), false);
-    }
-}
-
 
 /* ************************************************************************** */
 

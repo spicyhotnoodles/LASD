@@ -10,30 +10,32 @@ namespace lasd {
 // Comparison operators
 template<typename Data>
 bool BinaryTree<Data>::Node::operator==(const struct BinaryTree<Data>::Node& node) const {
-    if (this->Element() != node.Element())
-        return false;
-    else {
-        bool thisLeft = this->HasLeftChild();
-        bool thisRight = this->HasRightChild();
-        bool nodeLeft = node.HasLeftChild();
-        bool nodeRight = node.HasRightChild();
-        if ((thisLeft && thisRight) && (nodeLeft && nodeRight)) {
-            if (this->LeftChild() == node.LeftChild()\
-                && this->RightChild() == node.RightChild())
+    if (node.Element() == this->Element()){ 
+        bool thisDX = this->HasRightChild();
+        bool thisSX = this->HasLeftChild(); 
+
+        bool hisDX = node.HasRightChild();
+        bool hisSX = node.HasLeftChild(); 
+
+        bool right = (thisDX == hisDX);
+        bool left = (thisSX == hisSX); 
+
+        if (left && right) { 
+            if (thisSX && thisDX){
+                return ((node.LeftChild() == LeftChild()) && (node.RightChild() == RightChild()));
+            } 
+            else if (thisSX) {
+                return (node.LeftChild() == LeftChild());
+            } 
+            else if (thisDX) {
+                return (node.RightChild() == RightChild());
+            } 
+            else {
                 return true;
-            else
-                return false;
+            }
         }
-        else if (thisLeft && nodeLeft) {
-            if (this->LeftChild() == node.LeftChild())
-                return true;
-        }
-        else if (thisRight && nodeRight) {
-            if (this->RightChild() == node.RightChild())
-                return true;
-        }
-    }
-    return false;
+  }
+  return false;
 }
 
 template<typename Data>
@@ -53,6 +55,21 @@ bool BinaryTree<Data>::operator==(const BinaryTree<Data>& bt) const noexcept {
             return true;
         else
             return (this->Root().operator==(bt.Root()));
+    }
+}
+
+template<typename Data>
+void BinaryTree<Data>::printTree(const std::string& prefix, struct BinaryTree<Data>::Node* root, bool isLeft) {
+    if (root != nullptr) {
+        std::cout << prefix;
+        std::cout << (isLeft ? "├──" : "└──" );
+        // print the value of the node
+        std::cout << root->Element() << std::endl;
+        // enter the next tree level - left and right branch
+        if (root->HasLeftChild())
+            printTree(prefix + (isLeft ? "│   " : "    "), &(root->LeftChild()), true);
+        if (root->HasRightChild())
+            printTree(prefix + (isLeft ? "│   " : "    "), &(root->RightChild()), false);
     }
 }
 

@@ -1,16 +1,13 @@
 #include "test.hpp"
 #include <iostream>
 #include <random>
+#include <cmath>
 
 void mytest() {
     bool exit = false;
     do {
         std::cout << std::endl;
         std::cout << "---------- Test Studente -----------" << std::endl;
-        lasd::Vector<int> vector(5);
-        for (int i = 0; i < 5; i++) {
-            vector.operator[](i) = i + 1;
-        }
         /* lasd::Vector<std::string> vector(29);
         vector.operator[](0) = "A";
         vector.operator[](1) = "B";
@@ -41,109 +38,126 @@ void mytest() {
         vector.operator[](26) = "[...]";
         vector.operator[](27) = "[...]";
         vector.operator[](28) = "[...]"; */
-        lasd::BinaryTreeVec<int> binaryTree(vector);
-        //lasd::BinaryTreeVec<std::string> binaryTree(vector);
-        binaryTreeMenu(binaryTree);
-        exit = true;
-        int selectedStruct = selectStruct();
-        if (selectedStruct == 0)
+        int selectedImple = selectImple();
+        if (selectedImple == 0) {
             exit = true;
-        else {
-            if (selectedStruct == 1) {
-                int selectedStack = selectImple();
-                if (selectedStack == 1) {
-                    int selectedType = selectType();
+            break;
+        }
+        int selectedLinearContainer = selectLinearContainer();
+        int selectedType = selectType();
+        int size = -1;
+        std::cout << "Inserire il numero di nodi per la costruzione dell'albero: ";
+        std::cin >> size;
+        switch (selectedImple) {
+            case 1: {
+                if (selectedLinearContainer == 1) {
                     if (selectedType == 1) {
-                        lasd::StackVec<int> stack;
-                        randomStackGen(stack);
-                        stackMenu(stack);
+                        lasd::Vector<int> vector(size);
+                        randomVecGen(vector);
+                        lasd::BinaryTreeVec<int> binaryTree(vector);
+                        binaryTreeMenu(binaryTree);
                     }
                     else if (selectedType == 2) {
-                        lasd::StackVec<float> stack;
-                        randomStackGen(stack);
-                        stackMenu(stack);
+                        lasd::Vector<float> vector(size);
+                        randomVecGen(vector);
+                        lasd::BinaryTreeVec<float> binaryTree(vector);
+                        binaryTreeMenu(binaryTree);
                     }
                     else if (selectedType == 3) {
-                        lasd::StackVec<std::string> stack;
-                        randomStackGen(stack);
-                        stackMenu(stack);
-                    }                    
+                        lasd::Vector<std::string> vector(size);
+                        randomVecGen(vector);
+                        lasd::BinaryTreeVec<std::string> binaryTree(vector);
+                        binaryTreeMenu(binaryTree);
+                    }
+                    break;
                 }
-                else if (selectedStack == 2) {
-                    int selectedType = selectType();
+                else {
                     if (selectedType == 1) {
-                        lasd::StackLst<int> stack;
-                        randomStackGen(stack);
-                        stackMenu(stack);
+                        lasd::List<int> list;
+                        randomListGen(list, size);
+                        lasd::BinaryTreeVec<int> binaryTree(list);
+                        binaryTreeMenu(binaryTree);
                     }
                     else if (selectedType == 2) {
-                        lasd::StackLst<float> stack;
-                        randomStackGen(stack);
-                        stackMenu(stack);
+                        lasd::List<float> list;
+                        randomListGen(list, size);
+                        lasd::BinaryTreeVec<float> binaryTree(list);
+                        binaryTreeMenu(binaryTree);
                     }
                     else if (selectedType == 3) {
-                        lasd::StackLst<std::string> stack;
-                        randomStackGen(stack);
-                        stackMenu(stack);
+                        lasd::List<std::string> list;
+                        randomListGen(list, size);
+                        lasd::BinaryTreeVec<std::string> binaryTree(list);
+                        binaryTreeMenu(binaryTree);
                     }
+                    break;
                 }
             }
-            else if (selectedStruct == 2) {
-                int selectedQueue = selectImple();
-                if (selectedQueue == 1) {
-                    int selectedType = selectType();
+            case 2: {
+                if (selectedLinearContainer == 1) {
                     if (selectedType == 1) {
-                        lasd::QueueVec<int> queue;
-                        randomQueueGen(queue);
-                        queueMenu(queue);
+                        lasd::Vector<int> vector(size);
+                        randomVecGen(vector);
+                        lasd::BinaryTreeLnk<int> binaryTree(vector);
+                        binaryTreeMenu(binaryTree);
                     }
                     else if (selectedType == 2) {
-                        lasd::QueueVec<float> queue;
-                        randomQueueGen(queue);
-                        queueMenu(queue);
+                        lasd::Vector<float> vector(size);
+                        randomVecGen(vector);
+                        lasd::BinaryTreeLnk<float> binaryTree(vector);
+                        binaryTreeMenu(binaryTree);
                     }
                     else if (selectedType == 3) {
-                        lasd::QueueVec<std::string> queue;
-                        randomQueueGen(queue);
-                        queueMenu(queue);
+                        lasd::Vector<std::string> vector(size);
+                        randomVecGen(vector);
+                        lasd::BinaryTreeLnk<std::string> binaryTree(vector);
+                        binaryTreeMenu(binaryTree);
                     }
+                    break;
                 }
-                else if (selectedQueue == 2) {
-                    int selectedType = selectType();
+                else {
                     if (selectedType == 1) {
-                        lasd::QueueLst<int> queue;
-                        randomQueueGen(queue);
-                        queueMenu(queue);
+                        lasd::List<int> list;
+                        randomListGen(list, size);
+                        lasd::BinaryTreeLnk<int> binaryTree(list);
+                        binaryTreeMenu(binaryTree);
                     }
                     else if (selectedType == 2) {
-                        lasd::QueueLst<float> queue;
-                        randomQueueGen(queue);
-                        queueMenu(queue);
+                        lasd::List<float> list;
+                        randomListGen(list, size);
+                        lasd::BinaryTreeLnk<float> binaryTree(list);
+                        binaryTreeMenu(binaryTree);
                     }
                     else if (selectedType == 3) {
-                        lasd::QueueLst<std::string> queue;
-                        randomQueueGen(queue);
-                        queueMenu(queue);
+                        lasd::List<std::string> list;
+                        randomListGen(list, size);
+                        lasd::BinaryTreeLnk<std::string> binaryTree(list);
+                        binaryTreeMenu(binaryTree);
                     }
+                    break;
                 }
+            }
+            default: {
+                std::cout << "Scelta non valida" << std::endl;
+                break;
             }
         }
     } while(!exit);
 }
 
-int selectStruct() {
+int selectImple() {
     int choice = -1;
-    std::cout << "Scegli la struttura dati" << std::endl;
-    std::cout << "1) Stack" << std::endl;
-    std::cout << "2) Queue" << std::endl;
-    std::cout << "0) Per terminare" << std::endl;
+    std::cout << "Scegli l'implementazione" << std::endl;
+    std::cout << "1) BinaryTreeVec" << std::endl;
+    std::cout << "2) BinaryTreeLnk" << std::endl;
+    std::cout << "0) Esci" << std::endl;
     std::cin >> choice;
     return choice;
 }
 
-int selectImple() {
+int selectLinearContainer() {
     int choice = -1;
-    std::cout << "Scegli l'implementazione" << std::endl;
+    std::cout << "Scegli il tipo di container" << std::endl;
     std::cout << "1) Vettore" << std::endl;
     std::cout << "2) Lista" << std::endl;
     std::cin >> choice;
@@ -161,92 +175,18 @@ int selectType() {
 }
 
 template<typename Data>
-void stackMenu(lasd::Stack<Data>& stack) {
-    int choice = -1;
-    bool exit = false;
-    do {
-        std::cout << std::endl;
-        std::cout << "---------- Stack Menu ----------" << std::endl;
-        std::cout << "1) Push di un elemento nello stack" << std::endl;
-        std::cout << "2) Pop di un elemento dallo stack" << std::endl;
-        std::cout << "3) Top dello stack" << std::endl;
-        std::cout << "4) TopNPop dello stack" << std::endl;
-        std::cout << "5) Stampa stack" << std::endl;
-        std::cout << "6) Controllo di vuotezza" << std::endl;
-        std::cout << "7) Stampa numero di elementi contenuti" << std::endl;
-        std::cout << "8) Svuota stack" << std::endl;
-        std::cout << "0) Per terminare" << std::endl;
-        std::cin >> choice;
-        switch (choice) {
-            case 1: {
-                Data value;
-                std::cout << "Inserisci il valore da inserire nello stack: ";
-                std::cin >> value;
-                stack.Push(value);
-                std::cout << "Elemento aggiunto correttamente" << std::endl;
-                break;
-            }
-            case 2: {
-                try {
-                    stack.Pop();
-                    std::cout << "Elemento rimosso correttamente" << std::endl;
-                } catch(std::length_error& e) {
-                    std::cout << e.what() << std::endl;
-                }
-                break;
-            }
-            case 3: {
-                try {
-                    std::cout << "Top dello stack: " << stack.Top() << std::endl;
-                } catch(std::length_error& e) {
-                    std::cout << e.what() << std::endl;
-                }
-                break;
-            }
-            case 4: {
-                try {
-                    std::cout << "Top dello stack: " << stack.TopNPop() << std::endl;
-                    std::cout << "Elemento rimosso correttamente" << std::endl;
-                } catch(std::length_error& e) {
-                    std::cout << e.what() << std::endl;
-                }
-                break;
-            }
-            case 5: {
-                if (stack.Size() == 0) {
-                    std::cout << "Lo stack è vuoto" << std::endl;
-                }
-                else {
-                    stack.printStack();
-                }
-                break;
-            }
-            case 6: {
-                if (stack.Empty())
-                    std::cout << "Lo stack è vuoto" << std::endl;
-                else
-                    std::cout << "Lo stack non è vuoto" << std::endl;
-                break;
-            }
-            case 7: {
-                std::cout << "Numero di elementi contenuti: " << stack.Size() << std::endl;
-                break;
-            }
-            case 8: {
-                stack.Clear();
-                std::cout << "Stack svuotato" << std::endl;
-                break;
-            }
-            case 0: {
-                exit = true;
-                break;
-            }
-            default: {
-                std::cout << "Scelta non valida, riprovare!" << std::endl;
-                break;
-            }
-        }
-    } while (!exit);
+int checkType(const Data& value) {
+    int i = 0;
+    float f = 1.0;
+    std::string s = "";
+    int type = -1;
+    if (typeid(value) == typeid(i))
+        type = 1;
+    else if (typeid(value) == typeid(f))
+        type = 2;
+    else if (typeid(value) == typeid(s))
+        type = 3;
+    return type;
 }
 
 template<typename Data>
@@ -257,11 +197,14 @@ void binaryTreeMenu(lasd::BinaryTree<Data>& binaryTree) {
     do {
         std::cout << std::endl;
         std::cout << "---------- Binary Tree Menu ----------" << std::endl;
-        std::cout << "Random generated tree: " << std::endl;
+        std::cout << "\nRandom generated tree:\n" << std::endl;
         binaryTree.printTree(aString, &(binaryTree.Root()), false);
-        std::cout << "NB: Il figlio sinistro viene stampato prima del figlio destro" << std::endl;    
+        std::cout << "\nNB: Il figlio sinistro viene stampato prima del figlio destro" << std::endl;    
         std::cout << "--------------------------------------" << std::endl;
         std::cout << "1) Effettua visita sull'albero" << std::endl;
+        std::cout << "2) Controllo di esistenza di un dato" << std::endl;
+        std::cout << "3) Calcola fold function" << std::endl;
+        std::cout << "4) Applica map function (3n per gli interi, n^3 per i float, concatenzaione in testa di una stringa str)" << std::endl;
         std::cout << "0) Per terminare" << std::endl;
         std::cin >> choice;
         switch (choice)
@@ -269,6 +212,57 @@ void binaryTreeMenu(lasd::BinaryTree<Data>& binaryTree) {
         case 1: {
             treeTraversal(binaryTree);
             break;
+        }
+        case 2: {
+            Data value;
+            std::cout << "Inserisci l'elemento da ricercare: ";
+            std::cin >> value;
+            if (binaryTree.Exists(value)) 
+                std::cout << "Il valore è presente nell'albero" << std::endl;
+            else
+                std::cout << "Il valore non è presente nell'albero" << std::endl;
+            break;
+        }
+        case 3: {
+            int n = -1;
+            int type = -1;
+            std::cout << "Inserisci il valore di n, il calcolo varia in base al tipo di struttura dichiarata: ";
+            std::cin >> n;
+            struct lasd::BinaryTree<Data>::Node* node = &(binaryTree.Root());
+            Data value = node->Element();
+            type = checkType(value);
+            if (type == 1) {
+                int result = 1;
+                binaryTree.FoldPreOrder(&applyFold<Data>, &n, &result);
+                std::cout << "Risultato: " << result << std::endl;
+            }
+            else if (type == 2) {
+                float result = 0.0;
+                binaryTree.FoldPreOrder(&applyFold<Data>, &n, &result);
+                std::cout << "Risultato: " << result << std::endl;
+            }
+            else if (type == 3) {
+                std::string result = "";
+                binaryTree.FoldPreOrder(&applyFold<Data>, &n, &result);
+                std::cout << "Risultato: " << result << std::endl;
+            }
+            break;
+        }
+        case 4: {
+            struct lasd::BinaryTree<Data>::Node* node = &(binaryTree.Root());
+            Data value = node->Element();
+            int type = -1;
+            type = checkType(value);
+            if (type == 3) {
+                std::string aString = "";
+                std::cout << "Inserire la stringa da concatenare in testa: ";
+                std::cin >> aString;
+                binaryTree.Map(&applyMap<Data>, &aString);
+            }
+            else 
+                binaryTree.Map(&applyMap<Data>, nullptr);
+            std::cout << "Il valore dei nodi è stato modificato correttamente" << std::endl;
+            break;  
         }
         case 0: {
             exit = true;
@@ -371,92 +365,28 @@ void treeTraversal(lasd::BinaryTree<Data>& binaryTree) {
 }
 
 template<typename Data>
-void queueMenu(lasd::Queue<Data>& queue) {
-    int choice = -1;
-    bool exit = false;
-    do {
-        std::cout << std::endl;
-        std::cout << "---------- Queue Menu ----------" << std::endl;
-        std::cout << "1) Enqueue di un elemento nella queue" << std::endl;
-        std::cout << "2) Dequeue di un elemento dalla queue" << std::endl;
-        std::cout << "3) Head della queue" << std::endl;
-        std::cout << "4) HeadNDequeue della queue" << std::endl;
-        std::cout << "5) Controllo di vuotezza" << std::endl;
-        std::cout << "6) Stampa queue" << std::endl;
-        std::cout << "7) Stampa numero di elementi contenuti " << std::endl;
-        std::cout << "8) Svuota queue" << std::endl;
-        std::cout << "0) Per terminare" << std::endl;
-        std::cin >> choice;
-        switch (choice) {
-            case 1: {
-                Data element;
-                std::cout << "Inserisci il valore da accodare: " << std::endl;
-                std::cin >> element;
-                queue.Enqueue(element);
-                std::cout << "Elemento aggiunto correttamente" << std::endl;
-                break;
-            }
-            case 2: {
-                try {
-                    queue.Dequeue();
-                    std::cout << "Elemento rimosso correttamente" << std::endl;
-                } catch (std::length_error& e) {
-                    std::cout << e.what() << std::endl;
-                }
-                break;
-            }
-            case 3: {
-                try {
-                std::cout << "Head della coda: " << queue.Head() << std::endl;
-                } catch (std::length_error& e) {
-                    std::cout << e.what() << std::endl;
-                }
-                break;
-            }
-            case 4: {
-                try {
-                    std::cout << "Head della coda: " << queue.HeadNDequeue() << std::endl;
-                    std::cout << "Elemento rimosso correttamente" << std::endl;
-                } catch (std::length_error& e) {
-                    std::cout << e.what() << std::endl;
-                }
-                break;
-            }
-            case 5: {
-                if (queue.Empty())
-                    std::cout << "La coda è vuota" << std::endl;
-                else
-                    std::cout << "La coda non è vuota" << std::endl;
-                break;
-            }
-            case 6: {
-                if (queue.Size() == 0) {
-                    std::cout << "La coda è vuota" << std::endl;
-                }
-                else {
-                    queue.printQueue();
-                }
-                break;
-            }
-            case 7: {
-                std::cout << "Numero di elementi contenuti: " << queue.Size() << std::endl;
-                break;
-            }
-            case 8: {
-                queue.Clear();
-                std::cout << "Coda svuotata" << std::endl;
-                break;
-            }
-            case 0: {
-                exit = true;
-                break;
-            }
-            default : {
-                std::cout << "Scelta non valida, riprovare!" << std::endl;
-                break;
-            }
-        }
-    } while (!exit);
+void randomVecGen(lasd::Vector<Data>& vec);
+
+// Random integer generation
+template<>
+void randomVecGen(lasd::Vector<int>& vec) {
+    std::default_random_engine gen(std::random_device{}());
+    std::uniform_int_distribution<int> dist(0,100);
+    for (ulong index = 0; index < vec.Size(); index++) {
+        vec.operator[](index) = dist(gen);
+    }
+    std::cout << "Array popolato" << std::endl;
+}
+
+// Random float generation
+template<>
+void randomVecGen(lasd::Vector<float>& vec) {
+    std::default_random_engine gen(std::random_device{}());
+    std::uniform_real_distribution<float> dist(1.0,100.0);
+    for (ulong index = 0; index < vec.Size(); index++) {
+        vec.operator[](index) = dist(gen);
+    }
+    std::cout << "Array popolato" << std::endl;
 }
 
 int getRandomInt() {
@@ -465,82 +395,105 @@ int getRandomInt() {
     return dist(gen);
 }
 
-template<typename Data>
-void randomStackGen(lasd::Stack<Data>& stack);
-
+// Random string generation
 template<>
-void randomStackGen(lasd::Stack<int>& stack) {
-    std::default_random_engine gen(std::random_device{}());
-    std::uniform_int_distribution<int> dist(0,100);
-    for (ulong index = 0; index < 5; index++) {
-        stack.Push(dist(gen));
-    }
-    std::cout << "Stack popolato" << std::endl;
-}
-
-template<>
-void randomStackGen(lasd::Stack<float>& stack) {
-    std::default_random_engine gen(std::random_device{}());
-    std::uniform_real_distribution<float> dist(1.0,100.0);
-    for (ulong index = 0; index < 5; index++) {
-        stack.Push(dist(gen));
-    }
-    std::cout << "Stack popolato" << std::endl;
-}
-
-template<>
-void randomStackGen(lasd::Stack<std::string>& stack) {
+void randomVecGen(lasd::Vector<std::string>& vec) {
     const std::string characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     std::random_device random_device;
     std::mt19937 generator(random_device());
     std::uniform_int_distribution<> distribution(0, characters.size() - 1);
     std::string random_string;
-    for (ulong index = 0; index < 5; index++) {
+    for (ulong index = 0; index < vec.Size(); index++) {
         random_string = "";
         int length = getRandomInt();
         for (ulong i = 0; i < length; ++i)
+        {
             random_string += characters[distribution(generator)];
-        stack.Push(random_string);
+        }
+        vec.operator[](index) = random_string;
+        std::cout << "Array popolato" << std::endl;
     }
-    std::cout << "Stack popolato" << std::endl;
 }
 
 template<typename Data>
-void randomQueueGen(lasd::Queue<Data>& queue);
+void randomListGen(lasd::List<Data>& list, int size);
 
 template<>
-void randomQueueGen(lasd::Queue<int>& queue) {
+void randomListGen(lasd::List<int>& list, int size) {
     std::default_random_engine gen(std::random_device{}());
     std::uniform_int_distribution<int> dist(0,100);
-    for (ulong index = 0; index < 5; index++) {
-        queue.Enqueue(dist(gen));
+    for (ulong index = 0; index < size; index++) {
+        list.InsertAtBack(dist(gen));
     }
-    std::cout << "Queue popolata" << std::endl;
+    std::cout << "Lista popolata" << std::endl;
 }
 
 template<>
-void randomQueueGen(lasd::Queue<float>& queue) {
+void randomListGen(lasd::List<float>& list, int size) {
     std::default_random_engine gen(std::random_device{}());
-    std::uniform_real_distribution<float> dist(1.0,100.0);
-    for (ulong index = 0; index < 5; index++) {
-        queue.Enqueue(dist(gen));
+    std::uniform_real_distribution<float> dist(1.0,100);
+    for (ulong index = 0; index < size; index++) {
+        list.InsertAtBack(dist(gen));
     }
-    std::cout << "Queue popolata" << std::endl;
+    std::cout << "Lista popolata" << std::endl;
 }
 
 template<>
-void randomQueueGen(lasd::Queue<std::string>& queue) {
+void randomListGen(lasd::List<std::string>& list, int size) {
     const std::string characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     std::random_device random_device;
     std::mt19937 generator(random_device());
     std::uniform_int_distribution<> distribution(0, characters.size() - 1);
     std::string random_string;
-    for (ulong index = 0; index < 5; index++) {
+    for (ulong index = 0; index < size; index++) {
         random_string = "";
         int length = getRandomInt();
         for (ulong i = 0; i < length; ++i)
             random_string += characters[distribution(generator)];
-        queue.Enqueue(random_string);
+        list.InsertAtBack(random_string);
     }
-    std::cout << "Queue popolata" << std::endl;
+    std::cout << "Lista popolata" << std::endl;
+}
+
+template<typename Data>
+void applyFold(const Data& value, const void* par, void* acc);
+
+// sum all the elements
+template<>
+void applyFold(const int& value, const void* par, void* acc) { //par should be n input from the user (sum all integers less than n)
+    if (value < *((int*) par))
+        *((int*)acc) = *((int*)acc) * value;
+    //*acc = *acc + value;
+}
+
+// multiply all the elements
+template<> 
+void applyFold(const float& value, const void* par, void* acc) { //par should be n input from the user (multiply all float greater than n)
+    if (value > *((float*) par))
+        *((float*)acc) = *((float*)acc) + value;
+}
+
+// concat all the elements
+template<>
+void applyFold(const std::string& value, const void* par, void* acc) { //par should be n input from the user (sum all strings with length less or equal than n)
+    if (value.length() <= *((int*) par))
+        *((std::string*)acc) = *((std::string*)acc) + value;
+}
+
+template<typename Data>
+void applyMap(Data& value, void* opt);
+
+template<>
+void applyMap(int& value, void* opt) {
+    value *= 3;
+}
+
+template<>
+void applyMap(float& value, void* opt) {
+    value = pow(value, 3);
+}
+
+template<>
+void applyMap(std::string& value, void* opt) {
+    value = *((std::string*)opt) + value;
 }
