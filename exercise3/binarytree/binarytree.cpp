@@ -372,8 +372,10 @@ BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data>& bt) {
     if (bt.Empty())
         current = nullptr;
     else {
-        setMinLeaf(&(bt.Root()));
-        resetRoot = last = current;
+        current = &(bt.Root());
+        resetRoot = current;
+        setMinLeaf();
+        last = current;
     }
 }
 
@@ -450,7 +452,7 @@ bool BTPostOrderIterator<Data>::operator!=(const BTPostOrderIterator<Data>& iter
 }
 
 // Auxiliary function
-template<typename Data>
+/* template<typename Data>
 void BTPostOrderIterator<Data>::setMinLeaf(struct BinaryTree<Data>::Node* node) {
     if (Terminated())
         throw std::out_of_range("Iterator out of range");
@@ -465,8 +467,24 @@ void BTPostOrderIterator<Data>::setMinLeaf(struct BinaryTree<Data>::Node* node) 
             setMinLeaf(&(current->RightChild()));
         }
     }
-}
+} */
 
+template<typename Data>
+void BTPostOrderIterator<Data>::setMinLeaf() {
+    if (Terminated())
+        throw std::out_of_range("Iterator out of range");
+    else {
+        while (current->HasLeftChild()) {
+            stack.Push(current);
+            current = &(current->LeftChild());
+        }
+        if (current->HasRightChild()) {
+            stack.Push(current);
+            current = &(current->RightChild());
+            setMinLeaf();
+        }
+    }
+}
 // Specific memeber functions (inherited from Iterator)
 
 template<typename Data>
@@ -494,7 +512,8 @@ BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
         current = stack.TopNPop();
         if (current->HasRightChild() && (&(current->RightChild()))!=last) {
             stack.Push(current);
-            setMinLeaf(&(current->RightChild()));
+            current = &(current->RightChild());
+            setMinLeaf();
         }
     }
     last = current;
@@ -505,8 +524,14 @@ BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
 
 template<typename Data>
 void BTPostOrderIterator<Data>::Reset() noexcept {
-    current = resetRoot;
-    stack.Clear();
+    if (resetRoot == nullptr)
+        return;
+    else {
+        stack.Clear();
+        current = resetRoot;
+        setMinLeaf();
+        last = current;
+    }
 }
 
 /* ********** BTInOrderIterator implementations ********** */
@@ -517,8 +542,9 @@ BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data>& bt) {
     if (bt.Empty())
         current = nullptr;
     else {
-        setMinLeaf(&(bt.Root()));
+        current = &(bt.Root());
         resetRoot = current;
+        setMinLeaf();
     }
 }
 
@@ -588,12 +614,23 @@ bool BTInOrderIterator<Data>::operator!=(const BTInOrderIterator<Data>& iterator
 }
 
 // Auxiliary function
-template<typename Data>
+/* template<typename Data>
 void BTInOrderIterator<Data>::setMinLeaf(struct BinaryTree<Data>::Node* node) {
     if (Terminated())
         throw std::out_of_range("Iterator out of range");
     else {
         current = node;
+        while (current->HasLeftChild()) {
+            stack.Push(current);
+            current = &(current->LeftChild());
+        }
+    }
+} */
+template<typename Data>
+void BTInOrderIterator<Data>::setMinLeaf() {
+    if (Terminated())
+        throw std::out_of_range("Iterator out of range");
+    else {
         while (current->HasLeftChild()) {
             stack.Push(current);
             current = &(current->LeftChild());
@@ -625,11 +662,8 @@ BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
     else {
         if (current->HasRightChild()) {
             current = &(current->RightChild());
-            if (current->HasLeftChild()) {
-                stack.Push(current);
-                setMinLeaf(&(current->LeftChild()));
+            setMinLeaf();
             }
-        }
         else {
             if (stack.Empty())
                 current = nullptr;
@@ -644,8 +678,13 @@ BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
 
 template<typename Data>
 void BTInOrderIterator<Data>::Reset() noexcept {
-    current = resetRoot;
-    stack.Clear();
+    if (resetRoot == nullptr)
+        return;
+    else {
+        stack.Clear();
+        current = resetRoot;
+        setMinLeaf();
+    }
 }
 
 /* ********** BTBreadthIterator implementations ********** */

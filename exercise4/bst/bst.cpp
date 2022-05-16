@@ -3,30 +3,75 @@ namespace lasd {
 
 /* ************************************************************************** */
 
-// Auxiliary function
+// Specific constructor
 template<typename Data>
-void BST<Data>::QuickSort(LinearContainer<Data>& lc, int p, int r) {
-     if (p < r) {
-         int q = partition(lc, p, r);
-         QuickSort(lc, p, q - 1);
-         QuickSort(lc, q + 1, r);
-     }
+BST<Data>::BST(LinearContainer<Data>& lc) {
+    for (int i = 0; i < lc.Size(); i++) {
+        Insert(lc[i]);
+    }
+}
+
+// Copy constructor
+template<typename Data>
+BST<Data>::BST(const BST<Data>& bst) {
+    BinaryTreeLnk<Data>::BinaryTreeLnk(bst);
+}
+
+// Copy assignment
+template<typename Data>
+BST<Data>& BST<Data>::operator=(const BST<Data>& bst) {
+    BinaryTreeLnk<Data>::operator(bst);
+    return *this;
+}
+
+// Move assignment
+template<typename Data>
+BST<Data>& BST<Data>::operator=(BST<Data>&& bst) noexcept {
+    BinaryTreeLnk<Data>::operator=(std::move(bst));
+    return *this;
+}
+
+// Comparison operators
+template<typename Data>
+bool BST<Data>::operator==(const BST<Data>& bst) const noexcept {
+    //TODO
 }
 
 template<typename Data>
-void BST<Data>::partition(LinearContainer<Data>& lc, int p, int r) {
-    int x = lc[r];
-    int i = p - 1;
-    //int j = r + 1;
-    for (int j = p; j < r; j++) {
-        if (lc[j] <= x) {
-            i++;
-            swap(&lc[i], &lc[j]);
+bool BST<Data>::operator!=(const BST<Data>& bst) const noexcept {
+    return !(*this == bst);
+}
+
+template<typename Data>
+typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToSuccessor(NodeLnk* const& node, const Data& dat) const noexcept {
+    NodeLnk* const* ptr = &node;
+    NodeLnk* const* prd = nullptr;
+    while (true) {
+        NodeLnk& cur = **ptr;
+        if (cur.element > dat) {
+            prd = ptr;
+            if (cur.left == nullptr) {
+                return prd;
+            } else {
+                ptr = &cur.left;
+            }
+        } else {
+            if (cur.rigth == nullptr) {
+                return prd;
+            } else {
+                if (cur.elenment < dat) {
+                    prd = &cur.right;
+                } else {
+                    return &findPointerToMin(cur.right);
+                }
+            }
         }
     }
-    swap(&lc[i + 1], &lc[r]);
-    return (i + 1);
 }
+
+
+
+
 
 /* ************************************************************************** */
 

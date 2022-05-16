@@ -118,6 +118,38 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
+class DictionaryContainer: virtual public TestableContainer<Data> { // Must extend TestableContainer<Data>
+
+private:
+
+protected:
+
+public:
+
+  // Destructor
+  virtual ~DictionaryContainer() = default;
+
+  // Copy assignment
+  DictionaryContainer& operator=(const DictionaryContainer&) = delete; // Copy assignment of abstract types should not be possible.
+
+  // Move assignment
+  DictionaryContainer& operator=(DictionaryContainer&&) = delete; // Move assignment of abstract types should not be possible.
+
+  // Comparison operators
+  bool operator==(const DictionaryContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
+  bool operator!=(const DictionaryContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
+
+  // Specific member functions
+
+  void Insert(const Data&) = 0; // Copy of the value
+  void Insert(Data&&) = 0; // Move of the value
+  void Remove() = 0;
+
+};
+
+/* ************************************************************************** */
+
+template <typename Data>
 class MappableContainer: virtual public Container { // Must extend Container
 
 // A mappable container is a container whom datas can be modified by passing a function to the map() function 
