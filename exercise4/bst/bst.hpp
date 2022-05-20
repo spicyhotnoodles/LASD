@@ -37,7 +37,7 @@ public:
   BST(BST&&) noexcept;
 
   // Destructor
-  ~BST() = default;
+  virtual ~BST() = default;
 
   // Copy assignment
   BST& operator=(const BST&);
@@ -46,63 +46,63 @@ public:
   BST& operator=(BST&&) noexcept;
 
   // Comparison operators
-  bool operator==(const BST&) const noexcept;
+  bool operator==(const BST&) const noexcept; //TODO
   bool operator!=(const BST&) const noexcept;
 
   // Specific member functions
 
-  virtual const Data& Min() const; // (concrete function must throw std::length_error when empty)
-  virtual Data MinNRemove(); // (concrete function must throw std::length_error when empty)
-  virtual void RemoveMin(); // (concrete function must throw std::length_error when empty)
+  const Data& Min() const; // (concrete function must throw std::length_error when empty)
+  Data MinNRemove(); // (concrete function must throw std::length_error when empty)
+  void RemoveMin(); // (concrete function must throw std::length_error when empty)
 
-  virtual const Data& Max() const; // (concrete function must throw std::length_error when empty)
-  virtual Data MaxNRemove(); // (concrete function must throw std::length_error when empty)
-  virtual void RemoveMax(); // (concrete function must throw std::length_error when empty)
+  const Data& Max() const; // (concrete function must throw std::length_error when empty)
+  Data MaxNRemove(); // (concrete function must throw std::length_error when empty)
+  void RemoveMax(); // (concrete function must throw std::length_error when empty)
 
-  virtual const Data& Predecessor(const Data&) const; // (concrete function must throw std::length_error when not found)
-  virtual Data PredecessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
-  virtual void RemovePredecessor(const Data&); // (concrete function must throw std::length_error when not found)
+  const Data& Predecessor(const Data&) const; //(concrete function must throw std::length_error when not found)
+  Data PredecessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
+  void RemovePredecessor(const Data&); // (concrete function must throw std::length_error when not found)
 
-  virtual const Data& Successor(const Data&) const; // (concrete function must throw std::length_error when not found)
-  virtual Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
-  virtual Data RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when not found)
+  const Data& Successor(const Data&) const; //(concrete function must throw std::length_error when not found)
+  Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
+  Data RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when not found)
 
   // Specific member functions (inherited from DictionaryContainer)
 
-  virtual void Insert(const Data&) override; // Override DictionaryContainer member (Copy of the value)
-  virtual void Insert(Data&&) override; // Override DictionaryContainer member (Move of the value)
-  virtual void Remove(const Data&) override; // Override DictionaryContainer member
+  void Insert(const Data&) override; // Override DictionaryContainer member (Copy of the value)
+  void Insert(Data&&) override; // Override DictionaryContainer member (Move of the value)
+  void Remove(const Data&) override; // Override DictionaryContainer member
 
   // Specific member functions (inherited from TestableContainer)
 
-  virtual bool Exists(const Data&) const noexcept override; // Override TestableContainer member
+  bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
 protected:
 
-  virtual Data DataNDelete(NodeLnk*);
+  Data DataNDelete(NodeLnk*); //! Da controllare
 
-  virtual NodeLnk* Detach(NodeLnk*&) noexcept;
+  NodeLnk* Detach(NodeLnk*&) noexcept; //! Da controllare
 
-  virtual NodeLnk* DetachMin(NodeLnk*&) noexcept;
-  virtual NodeLnk* DetachMax(NodeLnk*&) noexcept;
+  NodeLnk* DetachMin(NodeLnk*&) noexcept; //TODO
+  NodeLnk* DetachMax(NodeLnk*&) noexcept; //TODO
 
-  virtual NodeLnk* Skip2Left(NodeLnk*&) noexcept;
-  virtual NodeLnk* Skip2Right(NodeLnk*&) noexcept;
+  NodeLnk* Skip2Left(NodeLnk*&) noexcept; //TODO
+  NodeLnk* Skip2Right(NodeLnk*&) noexcept; //TODO
 
-  virtual NodeLnk*& FindPointerToMin(NodeLnk*&) noexcept; // Both mutable & unmutable versions
-  virtual NodeLnk* const& FindPointerToMin(NodeLnk* const&) const noexcept;
+  NodeLnk*& FindPointerToMin(NodeLnk*&) noexcept; // Both mutable & unmutable versions
+  NodeLnk* const& FindPointerToMin(NodeLnk* const&) const noexcept;
   
-  virtual NodeLnk*&FindPointerToMax(NodeLnk*&) noexcept; // Both mutable & unmutable versions
-  // virtual NodeLnk* const& FindPointerToMax(NodeLnk* const&) const noexcept;
+  NodeLnk*&FindPointerToMax(NodeLnk*&) noexcept; // Both mutable & unmutable versions
+  NodeLnk* const& FindPointerToMax(NodeLnk* const&) const noexcept;
 
-  virtual NodeLnk*& FindPointerTo(NodeLnk*&, const Data&) noexcept; // Both mutable & unmutable versions
-  // virtual NodeLnk* const& FindPointerTo(NodeLnk* const&, const Data&) const noexcept;
+  NodeLnk*& FindPointerTo(NodeLnk*&, const Data&) noexcept; // Both mutable & unmutable versions
+  NodeLnk* const& FindPointerTo(NodeLnk* const&, const Data&) const noexcept;
 
-  virtual NodeLnk*& FindPointerToPredecessor(NodeLnk*&, const Data&) noexcept; // Both mutable & unmutable versions
-  // virtual NodeLnk* const& FindPointerToPredecessor(NodeLnk* const&, const Data&) const noexcept;
+  NodeLnk*& FindPointerToPredecessor(NodeLnk*&, const Data&) noexcept; // Both mutable & unmutable versions
+  NodeLnk* const& FindPointerToPredecessor(NodeLnk* const&, const Data&) const noexcept;
   
-  virtual NodeLnk*& FindPointerToSuccessor(NodeLnk*&, const Data&) noexcept; // Both mutable & unmutable versions
-  virtual NodeLnk* const& FindPointerToSuccessor(NodeLnk* const&, const Data&) const noexcept;
+  NodeLnk*& FindPointerToSuccessor(NodeLnk*&, const Data&) noexcept; //Both mutable & unmutable versions
+  NodeLnk* const& FindPointerToSuccessor(NodeLnk* const&, const Data&) const noexcept;
 
 };
 

@@ -260,12 +260,13 @@ private:
 protected:
 
   StackLst<struct BinaryTree<Data>::Node*> stack;
-  struct BinaryTree<Data>::Node* current;
-  struct BinaryTree<Data>::Node* resetRoot;
-  struct BinaryTree<Data>::Node* last;
+  struct BinaryTree<Data>::Node* current = nullptr;
+  struct BinaryTree<Data>::Node* resetRoot = nullptr;
+  struct BinaryTree<Data>::Node* last = nullptr;
 
   // Auxiliary function
-  void setMinLeaf(struct BinaryTree<Data>::Node*);
+  //void setMinLeaf(struct BinaryTree<Data>::Node*);
+  void setMinLeaf();
 
 public:
 
@@ -322,11 +323,12 @@ private:
 protected:
 
   StackLst<struct BinaryTree<Data>::Node*> stack;
-  struct BinaryTree<Data>::Node* current;
-  struct BinaryTree<Data>::Node* resetRoot;
+  struct BinaryTree<Data>::Node* current = nullptr;
+  struct BinaryTree<Data>::Node* resetRoot = nullptr;
 
   // Auxiliary function
-  void setMinLeaf(struct BinaryTree<Data>::Node*);
+  //void setMinLeaf(struct BinaryTree<Data>::Node*);
+  void setMinLeaf();
 
 public:
 

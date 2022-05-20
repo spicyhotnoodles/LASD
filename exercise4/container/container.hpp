@@ -141,9 +141,9 @@ public:
 
   // Specific member functions
 
-  void Insert(const Data&) = 0; // Copy of the value
-  void Insert(Data&&) = 0; // Move of the value
-  void Remove() = 0;
+  virtual void Insert(const Data&) = 0; // Copy of the value
+  virtual void Insert(Data&&) = 0; // Move of the value
+  virtual void Remove(const Data&) = 0;
 
 };
 
