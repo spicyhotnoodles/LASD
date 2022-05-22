@@ -3,8 +3,7 @@
 
 #include "../iterator/iterator.hpp"
 #include "../binarytree/binarytree.hpp"
-#include "../binarytree/vec/binarytreevec.hpp"
-#include "../binarytree/lnk/binarytreelnk.hpp"
+#include "../bst/bst.hpp"
 #include "../vector/vector.hpp"
 #include "../list/list.hpp"
 
@@ -13,12 +12,11 @@ void mytest();
 
 // Menu for binary tree testing
 template<typename Data>
-void binaryTreeMenu(lasd::BinaryTree<Data>&);
+void bstMenu(lasd::BinaryTree<Data>&);
 
 // Will return the selected struct, type and implementation for declaration
 int selectLinearContainer();
 int selectType();
-int selectImple();
 
 // Print tree traversal
 template<typename Data>
@@ -47,16 +45,6 @@ template<>
 void randomVecGen(lasd::Vector<float>&);
 template<>
 void randomVecGen(lasd::Vector<std::string>&);
-
-// Map functions
-template<typename Data>
-void applyMap(Data&, void*);
-template<>
-void applyMap(int&, void*);
-template<>
-void applyMap(float&, void*);
-template<>
-void applyMap(std::string&, void*);
 
 // Functions calculated with fold function
 template<typename Data>

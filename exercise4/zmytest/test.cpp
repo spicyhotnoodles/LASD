@@ -8,134 +8,57 @@ void mytest() {
     do {
         std::cout << std::endl;
         std::cout << "---------- Test Studente -----------" << std::endl;
-        /* lasd::Vector<std::string> vector(29);
-        vector.operator[](0) = "A";
-        vector.operator[](1) = "B";
-        vector.operator[](2) = "L";
-        vector.operator[](3) = "D";
-        vector.operator[](4) = "C";
-        vector.operator[](5) = "H";
-        vector.operator[](6) = "I";
-        vector.operator[](7) = "[...]";
-        vector.operator[](8) = "M";
-        vector.operator[](9) = "E";
-        vector.operator[](10) = "F";
-        vector.operator[](11) = "J";
-        vector.operator[](12) = "[...]";
-        vector.operator[](13) = "K";
-        vector.operator[](14) = "[...]";
-        vector.operator[](15) = "[...]";
-        vector.operator[](16) = "[...]";
-        vector.operator[](17) = "[...]";
-        vector.operator[](18) = "[...]";
-        vector.operator[](19) = "[...]";
-        vector.operator[](20) = "[...]";
-        vector.operator[](21) = "[...]";
-        vector.operator[](22) = "G";
-        vector.operator[](23) = "[...]";
-        vector.operator[](24) = "[...]";
-        vector.operator[](25) = "[...]";
-        vector.operator[](26) = "[...]";
-        vector.operator[](27) = "[...]";
-        vector.operator[](28) = "[...]"; */
-        int selectedImple = selectImple();
-        if (selectedImple == 0) {
+        int selectedLinearContainer = selectLinearContainer();
+        if (selectedLinearContainer == 0) {
             exit = true;
             break;
         }
-        int selectedLinearContainer = selectLinearContainer();
         int selectedType = selectType();
         int size = -1;
         std::cout << "Inserire il numero di nodi per la costruzione dell'albero: ";
         std::cin >> size;
-        switch (selectedImple) {
+        switch (selectedLinearContainer) {
             case 1: {
-                if (selectedLinearContainer == 1) {
                     if (selectedType == 1) {
                         lasd::Vector<int> vector(size);
                         randomVecGen(vector);
-                        lasd::BinaryTreeVec<int> binaryTree(vector);
-                        binaryTreeMenu(binaryTree);
+                        lasd::BST<int> bst(vector);
+                        bstMenu(bst);
                     }
                     else if (selectedType == 2) {
                         lasd::Vector<float> vector(size);
                         randomVecGen(vector);
-                        lasd::BinaryTreeVec<float> binaryTree(vector);
-                        binaryTreeMenu(binaryTree);
+                        lasd::BST<float> bst(vector);
+                        bstMenu(bst);
                     }
                     else if (selectedType == 3) {
                         lasd::Vector<std::string> vector(size);
                         randomVecGen(vector);
-                        lasd::BinaryTreeVec<std::string> binaryTree(vector);
-                        binaryTreeMenu(binaryTree);
+                        lasd::BST<std::string> bst(vector);
+                        bstMenu(bst);
                     }
                     break;
-                }
-                else {
-                    if (selectedType == 1) {
-                        lasd::List<int> list;
-                        randomListGen(list, size);
-                        lasd::BinaryTreeVec<int> binaryTree(list);
-                        binaryTreeMenu(binaryTree);
-                    }
-                    else if (selectedType == 2) {
-                        lasd::List<float> list;
-                        randomListGen(list, size);
-                        lasd::BinaryTreeVec<float> binaryTree(list);
-                        binaryTreeMenu(binaryTree);
-                    }
-                    else if (selectedType == 3) {
-                        lasd::List<std::string> list;
-                        randomListGen(list, size);
-                        lasd::BinaryTreeVec<std::string> binaryTree(list);
-                        binaryTreeMenu(binaryTree);
-                    }
-                    break;
-                }
             }
             case 2: {
-                if (selectedLinearContainer == 1) {
-                    if (selectedType == 1) {
-                        lasd::Vector<int> vector(size);
-                        randomVecGen(vector);
-                        lasd::BinaryTreeLnk<int> binaryTree(vector);
-                        binaryTreeMenu(binaryTree);
-                    }
-                    else if (selectedType == 2) {
-                        lasd::Vector<float> vector(size);
-                        randomVecGen(vector);
-                        lasd::BinaryTreeLnk<float> binaryTree(vector);
-                        binaryTreeMenu(binaryTree);
-                    }
-                    else if (selectedType == 3) {
-                        lasd::Vector<std::string> vector(size);
-                        randomVecGen(vector);
-                        lasd::BinaryTreeLnk<std::string> binaryTree(vector);
-                        binaryTreeMenu(binaryTree);
-                    }
-                    break;
-                }
-                else {
                     if (selectedType == 1) {
                         lasd::List<int> list;
                         randomListGen(list, size);
-                        lasd::BinaryTreeLnk<int> binaryTree(list);
-                        binaryTreeMenu(binaryTree);
+                        lasd::BST<int> bst(list);
+                        bstMenu(bst);
                     }
                     else if (selectedType == 2) {
                         lasd::List<float> list;
                         randomListGen(list, size);
-                        lasd::BinaryTreeLnk<float> binaryTree(list);
-                        binaryTreeMenu(binaryTree);
+                        lasd::BST<float> bst(list);
+                        bstMenu(bst);
                     }
                     else if (selectedType == 3) {
                         lasd::List<std::string> list;
                         randomListGen(list, size);
-                        lasd::BinaryTreeLnk<std::string> binaryTree(list);
-                        binaryTreeMenu(binaryTree);
+                        lasd::BST<std::string> bst(list);
+                        bstMenu(bst);
                     }
                     break;
-                }
             }
             default: {
                 std::cout << "Scelta non valida" << std::endl;
@@ -145,21 +68,12 @@ void mytest() {
     } while(!exit);
 }
 
-int selectImple() {
-    int choice = -1;
-    std::cout << "Scegli l'implementazione" << std::endl;
-    std::cout << "1) BinaryTreeVec" << std::endl;
-    std::cout << "2) BinaryTreeLnk" << std::endl;
-    std::cout << "0) Esci" << std::endl;
-    std::cin >> choice;
-    return choice;
-}
-
 int selectLinearContainer() {
     int choice = -1;
     std::cout << "Scegli il tipo di container" << std::endl;
     std::cout << "1) Vettore" << std::endl;
     std::cout << "2) Lista" << std::endl;
+    std::cout << "0) Esci" << std::endl;
     std::cin >> choice;
     return choice;
 }
@@ -190,34 +104,36 @@ int checkType(const Data& value) {
 }
 
 template<typename Data>
-void binaryTreeMenu(lasd::BinaryTree<Data>& binaryTree) {
+void bstMenu(lasd::BinaryTree<Data>& bst) {
     int choice = -1;
     bool exit = false;
     std::string aString = "";
     do {
         std::cout << std::endl;
-        std::cout << "---------- Binary Tree Menu ----------" << std::endl;
+        std::cout << "---------- Binary Search Tree Menu ----------" << std::endl;
         std::cout << "\nRandom generated tree:\n" << std::endl;
-        binaryTree.printTree(aString, &(binaryTree.Root()), false);
+        bst.printTree(aString, &(bst.Root()), false);
+        std::cout << "\n Leggenda: " << std::endl;
+        std::cout << "1) Il simbolo '├──' corrisponde al figlio sinistro" << std::endl;
+        std::cout << "\n2) Il simbolo '└──' corrisponde al figlio destro" << std::endl;
         std::cout << "\nNB: Il figlio sinistro viene stampato prima del figlio destro" << std::endl;    
         std::cout << "--------------------------------------" << std::endl;
         std::cout << "1) Effettua visita sull'albero" << std::endl;
         std::cout << "2) Controllo di esistenza di un dato" << std::endl;
         std::cout << "3) Calcola fold function" << std::endl;
-        std::cout << "4) Applica map function (3n per gli interi, n^3 per i float, concatenzaione in testa di una stringa str)" << std::endl;
         std::cout << "0) Per terminare" << std::endl;
         std::cin >> choice;
         switch (choice)
         {
         case 1: {
-            treeTraversal(binaryTree);
+            treeTraversal(bst);
             break;
         }
         case 2: {
             Data value;
             std::cout << "Inserisci l'elemento da ricercare: ";
             std::cin >> value;
-            if (binaryTree.Exists(value)) 
+            if (bst.Exists(value)) 
                 std::cout << "Il valore è presente nell'albero" << std::endl;
             else
                 std::cout << "Il valore non è presente nell'albero" << std::endl;
@@ -228,41 +144,25 @@ void binaryTreeMenu(lasd::BinaryTree<Data>& binaryTree) {
             int type = -1;
             std::cout << "Inserisci il valore di n, il calcolo varia in base al tipo di struttura dichiarata: ";
             std::cin >> n;
-            struct lasd::BinaryTree<Data>::Node* node = &(binaryTree.Root());
+            struct lasd::BinaryTree<Data>::Node* node = &(bst.Root());
             Data value = node->Element();
             type = checkType(value);
             if (type == 1) {
                 int result = 1;
-                binaryTree.FoldPreOrder(&applyFold<Data>, &n, &result);
+                bst.FoldPreOrder(&applyFold<Data>, &n, &result);
                 std::cout << "Risultato: " << result << std::endl;
             }
             else if (type == 2) {
                 float result = 0.0;
-                binaryTree.FoldPreOrder(&applyFold<Data>, &n, &result);
+                bst.FoldPreOrder(&applyFold<Data>, &n, &result);
                 std::cout << "Risultato: " << result << std::endl;
             }
             else if (type == 3) {
                 std::string result = "";
-                binaryTree.FoldPreOrder(&applyFold<Data>, &n, &result);
+                bst.FoldPreOrder(&applyFold<Data>, &n, &result);
                 std::cout << "Risultato: " << result << std::endl;
             }
             break;
-        }
-        case 4: {
-            struct lasd::BinaryTree<Data>::Node* node = &(binaryTree.Root());
-            Data value = node->Element();
-            int type = -1;
-            type = checkType(value);
-            if (type == 3) {
-                std::string aString = "";
-                std::cout << "Inserire la stringa da concatenare in testa: ";
-                std::cin >> aString;
-                binaryTree.Map(&applyMap<Data>, &aString);
-            }
-            else 
-                binaryTree.Map(&applyMap<Data>, nullptr);
-            std::cout << "Il valore dei nodi è stato modificato correttamente" << std::endl;
-            break;  
         }
         case 0: {
             exit = true;
@@ -458,7 +358,7 @@ void randomListGen(lasd::List<std::string>& list, int size) {
 template<typename Data>
 void applyFold(const Data& value, const void* par, void* acc);
 
-// sum all the elements
+// multiply all the elements
 template<>
 void applyFold(const int& value, const void* par, void* acc) { //par should be n input from the user (sum all integers less than n)
     if (value < *((int*) par))
@@ -466,7 +366,7 @@ void applyFold(const int& value, const void* par, void* acc) { //par should be n
     //*acc = *acc + value;
 }
 
-// multiply all the elements
+// sum all the elements
 template<> 
 void applyFold(const float& value, const void* par, void* acc) { //par should be n input from the user (multiply all float greater than n)
     if (value > *((float*) par))
@@ -478,22 +378,4 @@ template<>
 void applyFold(const std::string& value, const void* par, void* acc) { //par should be n input from the user (sum all strings with length less or equal than n)
     if (value.length() <= *((int*) par))
         *((std::string*)acc) = *((std::string*)acc) + value;
-}
-
-template<typename Data>
-void applyMap(Data& value, void* opt);
-
-template<>
-void applyMap(int& value, void* opt) {
-    value *= 3;
-}
-
-template<>
-void applyMap(float& value, void* opt) {
-    value = pow(value, 3);
-}
-
-template<>
-void applyMap(std::string& value, void* opt) {
-    value = *((std::string*)opt) + value;
 }

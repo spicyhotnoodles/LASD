@@ -46,7 +46,7 @@ public:
   BST& operator=(BST&&) noexcept;
 
   // Comparison operators
-  bool operator==(const BST&) const noexcept; //TODO
+  bool operator==(const BST&) const noexcept;
   bool operator!=(const BST&) const noexcept;
 
   // Specific member functions
