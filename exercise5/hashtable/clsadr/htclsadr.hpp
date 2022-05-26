@@ -27,13 +27,13 @@ protected:
   using HashTable<Data>::m;
   using HashTable<Data>::p;
   using HashTable<Data>::hash;
-  Vector<BST<unsigned long>> buckets;
+  Vector<BST<Data>> buckets;
   // ...
 
 public:
 
   // Default constructor
-  HashTableClsAdr() = default;
+  HashTableClsAdr();
 
   // Specific constructors
   HashTableClsAdr(ulong&); // A hash table of a given size
@@ -47,7 +47,7 @@ public:
   HashTableClsAdr(HashTableClsAdr&&) noexcept;
 
   // Destructor
-  ~HashTableClsAdr();
+  ~HashTableClsAdr() = default; // ! Verificalo
 
   // Copy assignment
   HashTableClsAdr& operator=(const HashTableClsAdr&);
@@ -72,7 +72,6 @@ public:
   // Specific member functions (inherited from TestableContainer)
 
   bool Exists(const Data&) const noexcept override; // Override TestableContainer member
-  bool AuxExists(const ulong&) const noexcept;
 
   // Specific member functions (inherited from MappableContainer)
 

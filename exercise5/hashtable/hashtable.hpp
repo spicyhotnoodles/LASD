@@ -19,7 +19,7 @@ class Hash {
 
 public:
 
-  ulong operator()(const Data&) noexcept; // (concrete function should not throw exceptions)
+  ulong operator()(const Data&) const noexcept; // (concrete function should not throw exceptions)
 
 };
 
@@ -64,6 +64,8 @@ public:
   // Specific member function
 
   virtual void Resize(ulong newSize) = 0; // Resize the hashtable to a given size
+
+  void print();
 
 protected:
 

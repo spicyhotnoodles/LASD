@@ -90,4 +90,10 @@ HashTable<Data>::HashTable(HashTable&& table) noexcept {
 }
 /* ************************************************************************** */
 
+template<typename Data>
+void HashTable<Data>::print() {
+    std::cout << "a: " << a << std::endl;
+    std::cout << "b: " << b << std::endl; 
+}
+
 }
