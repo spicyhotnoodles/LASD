@@ -51,6 +51,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr& table) {
     buckets = Vector<BST<Data>>(table.buckets.Size());
     m = table.buckets.Size();
     buckets = table.buckets;
+    size = table.size;
 }
 
 // Move constructor
