@@ -9,7 +9,7 @@
 /* ************************************************************************** */
 
 int main() {
-  /* int input = 0;
+  int input = 0;
   bool flag = true;
   std::cout << "---------- Menu ----------" << std::endl;
   do {
@@ -32,7 +32,7 @@ int main() {
       std::cout << "Scelta non valida, riprovare!" << std::endl;
       break;
     }
-  } while (flag); */
+  } while (flag);
   /* lasd::HashTableClsAdr<int> ht1;
   lasd::HashTableClsAdr<int> ht2;
   lasd::HashTableClsAdr<int> ht3;
@@ -63,7 +63,7 @@ int main() {
     std::cout << "Le due hash table non sono uguali" << std::endl; */
   /* lasd::Vector<int> vector(5);
   for (int i = 0; i < vector.Size(); i++)
-    vector[i] = i; */
+    vector[i] = i;
   lasd::List<int> list;
   for (int i = 0; i < 5; i++)
     list.InsertAtBack(i);
@@ -72,5 +72,12 @@ int main() {
     std::cout << "Il valore esiste" << std::endl;
   else
     std::cout << "Il valore non esiste" << std::endl;
+  std::cout << "Dimension: " << ht.Size() << std::endl;
+  ht.Remove(4);
+  if (ht.Exists(4))
+    std::cout << "Il valore esiste" << std::endl;
+  else
+    std::cout << "Il valore non esiste" << std::endl;
+  std::cout << "Dimension: " << ht.Size() << std::endl;*/
   return 0;
 }

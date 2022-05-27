@@ -79,19 +79,19 @@ namespace lasd {
     }
 
     template<typename Data>
-    void Insert(const LinearContainer<Data>& lc) {
+    void DictionaryContainer<Data>::Insert(const LinearContainer<Data>& lc) {
         for (int i = 0; i < lc.Size(); i++)
             Insert(lc[i]);
     }
 
     template<typename Data>
-    void Insert(LinearContainer<Data>&& lc) {
+    void DictionaryContainer<Data>::Insert(LinearContainer<Data>&& lc) {
         for (int i = 0; i < lc.Size(); i++)
             Insert(lc[i]);
     }
 
     template<typename Data>
-    void Remove(LinearContainer<Data>& lc) {
+    void DictionaryContainer<Data>::Remove(const LinearContainer<Data>& lc) {
         for (int i = 0; i < lc.Size(); i++)
             Remove(lc[i]);
     }

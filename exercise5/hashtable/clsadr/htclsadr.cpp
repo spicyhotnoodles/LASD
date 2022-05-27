@@ -36,20 +36,30 @@ HashTableClsAdr<Data>::HashTableClsAdr(const LinearContainer<Data>& lc) {
 }
 
 template<typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const LinearContainer<Data>& lc, const ulong size) {
-
+HashTableClsAdr<Data>::HashTableClsAdr(const ulong size, const LinearContainer<Data>& lc) {
+    m = size;
+    buckets = Vector<BST<Data>>(m);
+    for (ulong i = 0; i < lc.Size(); i++) {
+        Insert(lc[i]);
+    }
 }
 
 // Copy constructor
 template<typename Data>
 HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr& table) {
-
+    setAB(table);
+    buckets = Vector<BST<Data>>(table.buckets.Size());
+    m = table.buckets.Size();
+    buckets = table.buckets;
 }
 
 // Move constructor
 template<typename Data>
 HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr&& table) noexcept {
-
+    setAB(table);
+    std::swap(m, table.m);
+    std::swap(buckets, table.buckets);
+    std::swap(size, table.size);
 }
 
 /* // Destructor
@@ -61,13 +71,20 @@ HashTableClsAdr<Data>::~HashTableClsAdr() {
 // Copy assignment
 template<typename Data>
 HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(const HashTableClsAdr& table) {
-
+    HashTableClsAdr* tmp = new HashTableClsAdr(table);
+    std::swap(*this, *tmp);
+    delete tmp;
+    return *this;
 }
 
 // Move assignment
 template<typename Data>
 HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(HashTableClsAdr&& table) noexcept {
-
+    setAB(table);
+    std::swap(m, table.m);
+    std::swap(buckets, table.buckets);
+    std::swap(size, table.size);
+    return *this;
 }
 
 // Comparison operators
@@ -120,7 +137,16 @@ bool HashTableClsAdr<Data>::operator!=(const HashTableClsAdr& table) const noexc
 // Resize the hashtable to a given size
 template<typename Data>
 void HashTableClsAdr<Data>::Resize(ulong newSize) {
-
+    HashTableClsAdr<Data>* newTable = new HashTableClsAdr<Data>(newSize);
+    for (ulong i = 0; i < m; i++) {
+        BTPreOrderIterator<Data> it(buckets.operator[](i));
+        while (!it.Terminated()) {
+            newTable->Insert(it.operator*());
+            it.operator++();
+        }
+    }
+    std::swap(*this, *newTable);
+    delete newTable;
 }
 
 // Specific member functions (inherited from DictionaryContainer)
@@ -185,6 +211,12 @@ bool HashTableClsAdr<Data>::Exists(const Data& data) const noexcept {
     return false;
 }
 
+/* template <typename Data>
+bool HashTableClsAdr<Data>::Exists(const Data& data) const noexcept{
+    //return buckets.operator[](HashTable<Data>::HashKey(data)).Exists(data);
+    static_cast<const HashTable<Data>*>(this)->HashKey(data);
+} */
+
 // Specific member functions (inherited from MappableContainer)
 
 template<typename Data>
@@ -207,7 +239,6 @@ template<typename Data>
 void HashTableClsAdr<Data>::Clear() {
     for (ulong i = 0; i < m; i++)
         buckets.operator[](i).Clear();
-    buckets.Clear();
     size = 0;
 }
 

@@ -27,6 +27,7 @@ protected:
   using HashTable<Data>::m;
   using HashTable<Data>::p;
   using HashTable<Data>::hash;
+  using HashTable<Data>::setAB;
   Vector<BST<Data>> buckets;
   // ...
 
@@ -38,7 +39,7 @@ public:
   // Specific constructors
   HashTableClsAdr(ulong&); // A hash table of a given size
   HashTableClsAdr(const LinearContainer<Data>&); // A hash table obtained from a LinearContainer
-  HashTableClsAdr(const LinearContainer<Data>&, const ulong size); // A hash table of a given size obtained from a LinearContainer
+  HashTableClsAdr(const ulong size, const LinearContainer<Data>&); // A hash table of a given size obtained from a LinearContainer
 
   // Copy constructor
   HashTableClsAdr(const HashTableClsAdr&);

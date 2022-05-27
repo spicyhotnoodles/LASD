@@ -66,6 +66,7 @@ public:
   virtual void Resize(ulong newSize) = 0; // Resize the hashtable to a given size
 
   void print();
+  void setAB(const HashTable<Data>&);
 
 protected:
 
@@ -75,10 +76,10 @@ protected:
   ulong getRandomUlong(ulong min);
 
   // Copy assignment
-  HashTable& operator=(const HashTable&); // Copy assignment of abstract types should not be possible.
+  virtual HashTable& operator=(const HashTable&); // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  HashTable& operator=(HashTable&&) noexcept; // Move assignment of abstract types should not be possible.
+  virtual HashTable& operator=(HashTable&&) noexcept; // Move assignment of abstract types should not be possible.
 
   // Copy constructor
   HashTable(const HashTable&);

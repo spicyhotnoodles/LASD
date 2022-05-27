@@ -96,4 +96,10 @@ void HashTable<Data>::print() {
     std::cout << "b: " << b << std::endl; 
 }
 
+template<typename Data>
+void HashTable<Data>::setAB(const HashTable<Data>& table) {
+    a = table.a;
+    b = table.b;
+}
+
 }
