@@ -41,7 +41,7 @@ protected:
   using DictionaryContainer<Data>::size; // num of elements
   ulong a = 0;
   ulong b = 0;
-  ulong m = 2209; // size of the table (num of buckets)
+  ulong m = 127; // size of the table (num of buckets)
   ulong p = 134217989; // prime number
   Hash<Data> hash;
 
@@ -72,7 +72,7 @@ protected:
 
   // Auxiliary member functions
 
-  ulong HashKey(const Data&);
+  ulong HashKey(const Data&) const;
   ulong getRandomUlong(ulong min);
 
   // Copy assignment

@@ -27,7 +27,6 @@ protected:
   using HashTable<Data>::m;
   using HashTable<Data>::p;
   using HashTable<Data>::hash;
-  using HashTable<Data>::setAB;
   Vector<BST<Data>> buckets;
   // ...
 
@@ -48,7 +47,7 @@ public:
   HashTableClsAdr(HashTableClsAdr&&) noexcept;
 
   // Destructor
-  ~HashTableClsAdr() = default; // ! Verificalo
+  virtual ~HashTableClsAdr() = default; // ! Verificalo
 
   // Copy assignment
   HashTableClsAdr& operator=(const HashTableClsAdr&);

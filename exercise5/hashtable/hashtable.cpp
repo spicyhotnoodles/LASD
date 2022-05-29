@@ -42,7 +42,7 @@ class Hash<std::string> {
 };
 
 template<typename Data>
-ulong HashTable<Data>::HashKey(const Data& data) {
+ulong HashTable<Data>::HashKey(const Data& data) const {
     ulong k = hash.operator()(data);
     /* ulong addr = ((a * k + b) % p) % m;
     return addr; */

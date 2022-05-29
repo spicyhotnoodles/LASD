@@ -30,24 +30,19 @@ HashTableClsAdr<Data>::HashTableClsAdr(const LinearContainer<Data>& lc) {
         BST<int> bst;
         buckets.operator[](i) = bst;
     } */
-    for (ulong i = 0; i < lc.Size(); i++) {
-        Insert(lc[i]);
-    }
+    DictionaryContainer<Data>::Insert(lc);
 }
 
 template<typename Data>
 HashTableClsAdr<Data>::HashTableClsAdr(const ulong size, const LinearContainer<Data>& lc) {
     m = size;
     buckets = Vector<BST<Data>>(m);
-    for (ulong i = 0; i < lc.Size(); i++) {
-        Insert(lc[i]);
-    }
+    DictionaryContainer<Data>::Insert(lc);
 }
 
 // Copy constructor
 template<typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr& table) {
-    setAB(table);
+HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr& table) : HashTable<Data>::HashTable(table) {
     buckets = Vector<BST<Data>>(table.buckets.Size());
     m = table.buckets.Size();
     buckets = table.buckets;
@@ -56,8 +51,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr& table) {
 
 // Move constructor
 template<typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr&& table) noexcept {
-    setAB(table);
+HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr&& table) noexcept : HashTable<Data>::HashTable(table) {
     std::swap(m, table.m);
     std::swap(buckets, table.buckets);
     std::swap(size, table.size);
@@ -81,7 +75,7 @@ HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(const HashTableClsAdr& t
 // Move assignment
 template<typename Data>
 HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(HashTableClsAdr&& table) noexcept {
-    setAB(table);
+    HashTable<Data>::operator=(table);
     std::swap(m, table.m);
     std::swap(buckets, table.buckets);
     std::swap(size, table.size);
@@ -140,10 +134,12 @@ template<typename Data>
 void HashTableClsAdr<Data>::Resize(ulong newSize) {
     HashTableClsAdr<Data>* newTable = new HashTableClsAdr<Data>(newSize);
     for (ulong i = 0; i < m; i++) {
-        BTPreOrderIterator<Data> it(buckets.operator[](i));
-        while (!it.Terminated()) {
-            newTable->Insert(it.operator*());
-            it.operator++();
+        if (buckets.operator[](i).Size() > 0) {
+            BTPreOrderIterator<Data> it(buckets.operator[](i));
+            while (!it.Terminated()) {
+                newTable->Insert(it.operator*());
+                it.operator++();
+            }
         }
     }
     std::swap(*this, *newTable);
@@ -201,7 +197,7 @@ bool HashTableClsAdr<Data>::Exists(const Data& data) const noexcept {
     return false;
 } */
 
-template<typename Data>
+/* template<typename Data>
 bool HashTableClsAdr<Data>::Exists(const Data& data) const noexcept {
     bool check = false;
     for (ulong i = 0; i < m; i++) {
@@ -210,13 +206,12 @@ bool HashTableClsAdr<Data>::Exists(const Data& data) const noexcept {
             return true;
     }
     return false;
-}
-
-/* template <typename Data>
-bool HashTableClsAdr<Data>::Exists(const Data& data) const noexcept{
-    //return buckets.operator[](HashTable<Data>::HashKey(data)).Exists(data);
-    static_cast<const HashTable<Data>*>(this)->HashKey(data);
 } */
+
+template<typename Data>
+bool HashTableClsAdr<Data>::Exists(const Data& data) const noexcept {
+    return buckets.operator[](HashTable<Data>::HashKey(data)).Exists(data);
+}
 
 // Specific member functions (inherited from MappableContainer)
 

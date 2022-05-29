@@ -5,7 +5,7 @@
 /* ************************************************************************** */
 
 #include "../hashtable.hpp"
-// #include ...
+#include "../../vector/vector.hpp"
 
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class HashTableOpnAdr { // Must extend HashTable<Data>
+class HashTableOpnAdr: virtual public HashTable<Data> { // Must extend HashTable<Data>
 
 private:
 
@@ -22,93 +22,83 @@ private:
 
 protected:
 
-  // using HashTable<Data>::???;
+  using HashTable<Data>::size; // num of elements
+  using HashTable<Data>::m;
+  using HashTable<Data>::p;
+  using HashTable<Data>::HashKey;
+  Vector<Data> buckets;
+  Vector<char> flags; // 'd' for deleted, 'u' for used, 'e' for empty
+
 
   // ...
 
 public:
 
   // Default constructor
-  // HashTableOpnAdr() specifiers;
-
-  /* ************************************************************************ */
+  HashTableOpnAdr();
 
   // Specific constructors
-  // HashTableOpnAdr(argument) specifiers; // A hash table of a given size
-  // HashTableOpnAdr(argument) specifiers; // A hash table obtained from a LinearContainer
-  // HashTableOpnAdr(argument) specifiers; // A hash table of a given size obtained from a LinearContainer
-
-  /* ************************************************************************ */
+  HashTableOpnAdr(ulong&); // A hash table of a given size
+  HashTableOpnAdr(const LinearContainer<Data>&); // A hash table obtained from a LinearContainer
+  HashTableOpnAdr(const ulong size, const LinearContainer<Data>&); // A hash table of a given size obtained from a LinearContainer
 
   // Copy constructor
-  // HashTableOpnAdr(argument) specifiers;
+  HashTableOpnAdr(const HashTableOpnAdr&);
 
   // Move constructor
-  // HashTableOpnAdr(argument) specifiers;
-
-  /* ************************************************************************ */
+  HashTableOpnAdr(HashTableOpnAdr&&) noexcept;
 
   // Destructor
-  // ~HashTableOpnAdr() specifiers;
-
-  /* ************************************************************************ */
+  virtual ~HashTableOpnAdr() = default;
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  HashTableOpnAdr& operator=(const HashTableOpnAdr&);
 
   // Move assignment
-  // type operator=(argument) specifiers;
-
-  /* ************************************************************************ */
+  HashTableOpnAdr& operator=(HashTableOpnAdr&&) noexcept;
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
-
-  /* ************************************************************************ */
+  bool operator==(const HashTableOpnAdr&) const noexcept;
+  bool operator!=(const HashTableOpnAdr&) const noexcept;
 
   // Specific member functions (inherited from HashTable)
 
-  // type Resize(argument) specifiers; // Resize the hashtable to a given size
-
-  /* ************************************************************************ */
+  void Resize(ulong) override; // Resize the hashtable to a given size
 
   // Specific member functions (inherited from DictionaryContainer)
 
-  // type Insert(argument) specifiers; // Override DictionaryContainer member (Copy of the value)
-  // type Insert(argument) specifiers; // Override DictionaryContainer member (Move of the value)
-  // type Remove(argument) specifiers; // Override DictionaryContainer member
-
-  /* ************************************************************************ */
+  bool Insert(const Data&) override; // Override DictionaryContainer member (Copy of the value)
+  bool Insert(Data&&) override; // Override DictionaryContainer member (Move of the value)
+  bool Remove(const Data&) override; // Override DictionaryContainer member
 
   // Specific member functions (inherited from TestableContainer)
 
-  // type Exists(argument) specifiers; // Override TestableContainer member
-
-  /* ************************************************************************ */
+  bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
   // Specific member functions (inherited from MappableContainer)
 
-  // type Map(argument) specifiers; // Override MappableContainer member
+  using typename MappableContainer<Data>::MapFunctor;
 
-  /* ************************************************************************ */
+  void Map(MapFunctor, void*) override; // Override MappableContainer member
 
   // Specific member functions (inherited from FoldableContainer)
 
-  // type Fold(argument) specifiers; // Override FoldableContainer member
+  using typename FoldableContainer<Data>::FoldFunctor;
 
-  /* ************************************************************************ */
+  void Fold(FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
 
   // Specific member functions (inherited from Container)
 
-  // type Clear() specifiers; // Override Container member
+  void Clear() override; // Override Container member
 
-public:
+protected:
 
   // Auxiliary member functions
 
-  // type Find(argument) specifiers;
-  // type FindEmpty(argument) specifiers;
+  void resetFlags(); // Reset flags status
+  ulong HashKey(ulong, ulong) const; // Probing function
+  ulong Find(const Data&); // Find the index of the given value
+  ulong FindEmpty(ulong); // Find the index of the first empty bucket
   // type Remove(argument) specifiers;
 
 };
