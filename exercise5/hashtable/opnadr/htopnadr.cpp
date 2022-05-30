@@ -22,13 +22,18 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(ulong& size) {
 
 template<typename Data>
 HashTableOpnAdr<Data>::HashTableOpnAdr(const LinearContainer<Data>& lc) {
-    m = lc.Size();
+    buckets = Vector<Data>(m);
+    flags = Vector<char>(m);
+    resetFlags();
     DictionaryContainer<Data>::Insert(lc);
 }
 
 template<typename Data>
 HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong size, const LinearContainer<Data>& lc) {
     m = size;
+    buckets = Vector<Data>(m);
+    flags = Vector<char>(m);
+    resetFlags();
     DictionaryContainer<Data>::Insert(lc);
 }
 
@@ -36,6 +41,7 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong size, const LinearContainer<D
 template<typename Data>
 HashTableOpnAdr<Data>::HashTableOpnAdr(const HashTableOpnAdr& table) : HashTable<Data>::HashTable(table) {
     buckets = Vector<Data>(table.buckets.Size());
+    // flags = Vector<char>(table.flags.Size());
     m = table.buckets.Size();
     buckets = table.buckets;
     size = table.size;
@@ -72,11 +78,26 @@ HashTableOpnAdr<Data>& HashTableOpnAdr<Data>::operator=(HashTableOpnAdr&& table)
 }
 
 // Comparison operators
+/* template<typename Data>
+bool HashTableOpnAdr<Data>::operator==(const HashTableOpnAdr& table) const noexcept {
+    if (size == table.size) {
+        for (ulong i = 0; i < m; i++) {
+            if (!table.buckets.Exists(buckets.operator[](i)))
+                return false;
+        }
+    }
+    return false;
+} */
+
 template<typename Data>
 bool HashTableOpnAdr<Data>::operator==(const HashTableOpnAdr& table) const noexcept {
-    for (ulong i = 0; i < m; i++) {
-        if (!table.buckets.Exists(buckets.operator[](i)))
-            return false;
+    if (size != table.size)
+        return false;
+    else {
+        for (ulong i = 0; i < m; i++) {
+            if (!table.buckets.Exists(buckets.operator[](i)))
+                return false;
+        }
     }
     return true;
 }
@@ -99,7 +120,7 @@ void HashTableOpnAdr<Data>::Resize(ulong newSize) {
 }
 
 // Specific member functions (inherited from DictionaryContainer)
-template<typename Data>
+/* template<typename Data>
 bool HashTableOpnAdr<Data>::Insert(const Data& data) {
     if (!Exists(data)) {
         ulong addr = HashKey(data);
@@ -117,9 +138,37 @@ bool HashTableOpnAdr<Data>::Insert(const Data& data) {
         return true;
     }
     return false;
+} */
+
+template<typename Data>
+bool HashTableOpnAdr<Data>::Insert(const Data& data) {
+    if (!Exists(data)) {
+        ulong addr = FindEmpty(HashKey(data));
+        if (addr != -1) {
+        buckets.operator[](addr) = data;
+        flags.operator[](addr) = 'u';
+        size++;
+        return true;
+        }
+    }
+    return false;
 }
 
 template<typename Data>
+bool HashTableOpnAdr<Data>::Insert(Data&& data) {
+    if (!Exists(data)) {
+        ulong addr = FindEmpty(HashKey(std::move(data)));
+        if (addr != -1) {
+        buckets.operator[](addr) = std::move(data);
+        flags.operator[](addr) = 'u';
+        size++;
+        return true;
+        }
+    }
+    return false;
+}
+
+/* template<typename Data>
 bool HashTableOpnAdr<Data>::Insert(Data&& data) {
     if (!Exists(data)) {
         ulong addr = HashKey(data);
@@ -138,9 +187,16 @@ bool HashTableOpnAdr<Data>::Insert(Data&& data) {
     }
     return false;
 }
-
+ */
 template<typename Data>
 bool HashTableOpnAdr<Data>::Remove(const Data& data) {
+    if (Exists(data)) {
+        ulong addr = Find(data);
+        flags.operator[](addr) = 'd';
+        buckets.operator[](addr) = Data();
+        size--;
+        return true;
+    }
     return false;
 }
 
@@ -149,12 +205,12 @@ template<typename Data>
 bool HashTableOpnAdr<Data>::Exists(const Data& data) const noexcept {
     ulong addr = HashKey(data);
     ulong i = 0;
-    while (flags.operator[](addr) != 'e') {
+    while (flags.operator[](addr) != 'e') { // If an empty bucket is found, the element does not exist for sure
         if (buckets.operator[](addr) == data)
             return true;
-        if (i++ == m) // All the buckets are checked and the data was not found
-            break;
         i++;
+        if (i == m) // All the buckets are checked and the data was not found
+            break;
         addr = HashKey(addr, i);
     }
     return false;
@@ -193,15 +249,28 @@ ulong HashTableOpnAdr<Data>::HashKey(ulong addr, ulong index) const {
 }
 
 template<typename Data>
-ulong HashTableOpnAdr<Data>::FindEmpty(ulong collisionAddr) {
+ulong HashTableOpnAdr<Data>::FindEmpty(ulong addr) {
     ulong i = 0;
-    ulong addr = HashKey(collisionAddr, i + 1);
+    addr = HashKey(addr, i);
     while (flags.operator[](addr) == 'u') {
         i++;
         if (i == m)
             Resize(m * 2);
         else
-            addr = HashKey(collisionAddr, i + 1);
+            addr = HashKey(addr, i);
+    }
+    return addr;
+}
+
+template<typename Data>
+ulong HashTableOpnAdr<Data>::Find(const Data& data) {
+    ulong addr = HashKey(data);
+    ulong i = 0;
+    while (flags.operator[](addr) != 'e') {
+        if (buckets.operator[](addr) == data)
+            break;
+        i++;
+        addr = HashKey(addr, i);
     }
     return addr;
 }
