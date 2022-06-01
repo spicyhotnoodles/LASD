@@ -219,13 +219,17 @@ bool HashTableOpnAdr<Data>::Exists(const Data& data) const noexcept {
 // Specific member function (inherited from MappableContainer)
 template<typename Data>
 void HashTableOpnAdr<Data>::Map(MapFunctor fun, void* par) {
-    buckets.Map(fun, par);
+    for (ulong i = 0; i < m; i++)
+        if (flags.operator[](i) == 'u')
+            fun(buckets.operator[](i), par);
 }
 
 // Specific member function (inherited from FoldableContainer)
 template<typename Data>
 void HashTableOpnAdr<Data>::Fold(FoldFunctor fun, const void* par, void* acc) const {
-    buckets.Fold(fun, par, acc);
+    for (ulong i = 0; i < m; i++) 
+        if (flags.operator[](i) == 'u')
+            fun(buckets.operator[](i), par, acc);
 }
 
 // Specific member function (inherited from Container) 

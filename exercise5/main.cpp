@@ -34,21 +34,5 @@ int main() {
       break;
     }
   } while (flag);
-  // Generate random double numbers
-  /* std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_real_distribution<> dis(0, 1);
-  lasd::Vector<double> v(100);
-  for (int i = 0; i < 100; i++) {
-    v[i] = dis(gen);
-  }
-  lasd::HashTableOpnAdr<double> ht(5, v);
-  for (int i = 0; i < v.Size(); i+17) {
-    std::cout << "Checking " << v[i] << ": ";
-    if (ht.Exists(v[i]))
-      std::cout << "Elemento esistente" << std::endl;
-    else
-      std::cout << "Elemento non esistente" << std::endl;
-  }*/
   return 0;
 }

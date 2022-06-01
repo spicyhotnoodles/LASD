@@ -161,7 +161,7 @@ Data BST<Data>::SuccessorNRemove(const Data& dat) {
 }
 
 template<typename Data>
-Data BST<Data>::RemoveSuccessor(const Data& dat) {
+void BST<Data>::RemoveSuccessor(const Data& dat) {
     struct BST<Data>::NodeLnk*& ptr = FindPointerToSuccessor(root, dat);
     if (ptr == nullptr)
         throw std::length_error("Successor not found");

@@ -65,7 +65,7 @@ public:
 
   const Data& Successor(const Data&) const; //(concrete function must throw std::length_error when not found)
   Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when not found)
-  Data RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when not found)
+  void RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when not found)
 
   // Specific member functions (inherited from DictionaryContainer)
 
