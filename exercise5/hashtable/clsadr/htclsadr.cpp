@@ -135,7 +135,7 @@ void HashTableClsAdr<Data>::Resize(ulong newSize) {
     HashTableClsAdr<Data>* newTable = new HashTableClsAdr<Data>(newSize);
     for (ulong i = 0; i < m; i++) {
         if (buckets.operator[](i).Size() > 0) {
-            BTPreOrderIterator<Data> it(buckets.operator[](i));
+            BTBreadthIterator<Data> it(buckets.operator[](i));
             while (!it.Terminated()) {
                 newTable->Insert(it.operator*());
                 it.operator++();

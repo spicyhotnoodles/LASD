@@ -335,7 +335,7 @@ template<typename Data>
 BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
     if (Terminated())
         throw std::out_of_range("Iterator out of range");
-    else {
+    /* else {
         if (current->HasLeftChild() && current->HasRightChild()) {
             stack.Push(&(current->RightChild()));
             current = &(current->LeftChild());
@@ -352,7 +352,16 @@ BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
             }
         }
         return *this;
-    }
+    } */
+    if (current->HasRightChild())
+        stack.Push(&(current->RightChild()));
+    if (current->HasLeftChild())
+        current = &(current->LeftChild());
+    if (stack.Empty())
+        current = nullptr;
+    else
+        current = stack.TopNPop();
+    return *this;
 }
 
 // Specific member functions (inherited from ResettableIterator)
